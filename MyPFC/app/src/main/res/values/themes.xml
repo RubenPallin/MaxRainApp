@@ -1,8 +1,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+        <!-- Base application theme. -->
+
     <style name="Base.Theme.MyPFC" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/blue2</item> <!-- Cambia "your_color_primary" por tu color primario -->
+        <item name="colorButtonNormal">@color/blue2</item> <!-- Cambia "your_color_button_normal" por el color de fondo que desees -->
     </style>
 
     <style name="Theme.MyPFC" parent="Base.Theme.MyPFC" />
