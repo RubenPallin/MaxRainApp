@@ -17,17 +17,20 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".MiCuentaRegristrada"
+            android:exported="false" />
+        <activity
             android:name=".Contacto"
             android:exported="false" />
         <activity
             android:name=".Login"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light"/>
-        <activity
-            android:name=".MainMaxRain"
-            android:exported="false" />
+            android:theme="@style/Theme.AppCompat.Light" />
         <activity
             android:name=".MiCuenta"
+            android:exported="false" />
+        <activity
+            android:name=".MainMaxRain"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
