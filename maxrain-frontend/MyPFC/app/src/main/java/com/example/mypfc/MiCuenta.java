@@ -28,7 +28,10 @@ public class MiCuenta extends AppCompatActivity {
         Button btnOpinion = findViewById(R.id.button_opinion);
         Button btnAjustes = findViewById(R.id.button_ajustes);
 
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         btnInicio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,10 +56,5 @@ public class MiCuenta extends AppCompatActivity {
             }
         });
 
-    }
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
     }
 }

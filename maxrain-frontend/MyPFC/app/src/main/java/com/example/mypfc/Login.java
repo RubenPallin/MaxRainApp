@@ -2,10 +2,14 @@ package com.example.mypfc;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -18,6 +22,7 @@ import androidx.core.view.WindowInsetsCompat;
 public class Login extends AppCompatActivity {
     private EditText editTextEmail, editTextPassword;
     //private FirebaseAuth mAuth;
+    private TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +32,7 @@ public class Login extends AppCompatActivity {
 
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
+        textView = findViewById(R.id.textEnlace);
 
         Button btnLogin = findViewById(R.id.sign_in_login_button);
 
@@ -37,6 +43,24 @@ public class Login extends AppCompatActivity {
         if (actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
 
+
+        textView.setPaintFlags(textView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void iniciarSesion(){

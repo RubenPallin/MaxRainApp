@@ -17,6 +17,14 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".Register"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityEscanear"
+            android:exported="false"
+            android:screenOrientation="fullSensor"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
             android:name=".MiCuentaRegristrada"
             android:exported="false" />
         <activity

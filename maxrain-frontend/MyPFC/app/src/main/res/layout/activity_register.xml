@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Register">
+
+
+    <TextView
+        android:id="@+id/textNombreUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="88dp"
+        android:text="Nombre Usuario"
+        android:textColor="@color/black"
+        android:fontFamily=""
+        android:textSize="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/sign_up_edittext_username"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Username"
+        android:inputType="text"
+        android:background="@drawable/custom_editext"
+        android:fontFamily="sans-serif"
+        app:layout_constraintTop_toBottomOf="@id/textNombreUser"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+         />
+
+    <TextView
+        android:id="@+id/textEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginTop="15dp"
+        android:text="Email"
+        android:textSize="16dp"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@id/sign_up_edittext_email"
+        app:layout_constraintTop_toBottomOf="@id/sign_up_edittext_username"/>
+
+    <EditText
+        android:id="@+id/sign_up_edittext_email"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:background="@drawable/custom_editext"
+        android:fontFamily="sans-serif"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textEmail"
+        android:layout_marginTop="5dp"/>
+
+    <TextView
+        android:id="@+id/textPass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Contraseña"
+        android:textSize="16dp"
+        android:textColor="@color/black"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="@id/sign_up_edittext_password"
+        app:layout_constraintTop_toBottomOf="@id/sign_up_edittext_email"/>
+
+    <EditText
+        android:id="@+id/sign_up_edittext_password"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:background="@drawable/custom_editext"
+        android:fontFamily="sans-serif"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textPass"
+        android:layout_marginTop="5dp"/>
+
+    <TextView
+        android:id="@+id/textRepeatPass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Repita la contraseña"
+        android:textSize="16dp"
+        android:textColor="@color/black"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="@id/sign_up_edittext_rpassword"
+        app:layout_constraintTop_toBottomOf="@id/sign_up_edittext_password"/>
+
+    <EditText
+        android:id="@+id/sign_up_edittext_rpassword"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Repeat Password"
+        android:inputType="textPassword"
+        android:background="@drawable/custom_editext"
+        android:fontFamily="sans-serif"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textRepeatPass"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/textTelefono"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Teléfono"
+        android:textSize="16dp"
+        android:textColor="@color/black"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="@id/sign_up_edittext_rpassword"
+        app:layout_constraintTop_toBottomOf="@id/sign_up_edittext_rpassword"/>
+
+    <EditText
+        android:id="@+id/sign_up_edittext_telefono"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Teléfono"
+        android:inputType="textPassword"
+        android:background="@drawable/custom_editext"
+        android:fontFamily="sans-serif"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textTelefono"
+        android:layout_marginTop="10dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
