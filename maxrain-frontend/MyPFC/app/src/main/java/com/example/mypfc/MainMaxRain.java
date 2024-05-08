@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mypfc.databinding.ActivityMainMaxRainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
@@ -34,6 +35,7 @@ public class MainMaxRain extends AppCompatActivity {
     private  Context main_context = this;
     private TextView textViewResult;
     private ImageButton btnQr;
+    private int lastSelectedItemId = R.id.nav_item1;
     private static final int CODIGO_PETICION_CAMARA = 1;
 
     private final ActivityResultLauncher<ScanOptions> barcodeLauncher = registerForActivityResult(new ScanContract(), result -> {
@@ -53,28 +55,41 @@ public class MainMaxRain extends AppCompatActivity {
         btnQr = findViewById(R.id.imageButton);
         binding = ActivityMainMaxRainBinding.inflate(getLayoutInflater());
         textViewResult = findViewById(R.id.textViewResult);
-        BottomNavigationView bar = findViewById(R.id.bottom_navigation);
+        BottomNavigationView bar = findViewById(R.id.bottomNavigation);
 
 
         bar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                if (menuItem.getItemId() == R.id.nav_item1){
+                int itemId = menuItem.getItemId();
+                if (itemId == R.id.nav_item1) {
 
-                } else if (menuItem.getItemId() == R.id.nav_item2) {
-                    Intent intent = new Intent(main_context, Login.class);
+                } else if (itemId == R.id.nav_item2) {
+                    // Carga el ProductosFragment
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container, new ProductosFragment())
+                            .addToBackStack(null)
+                            .commit();
+                } else if (itemId == R.id.nav_item3) {
+                    // Manejar tercer ítem, por ejemplo abrir otra actividad
+                    Intent intent = new Intent(MainMaxRain.this, Carrito.class);
                     startActivity(intent);
-                } else if (menuItem.getItemId() == R.id.nav_item3) {
-                    Intent intent = new Intent(main_context, CarritoFragment.class);
-                    startActivity(intent);
-                } else if (menuItem.getItemId() == R.id.nav_item4) {
-                    Intent intent = new Intent(main_context, MiCuenta.class);
-                    startActivity(intent);
-                }
-                return false;
+                } else if (itemId == R.id.nav_item4) {
+                    // Manejar cuarto ítem
+                    startActivity(new Intent(MainMaxRain.this, MiCuenta.class));
+                } else {
+                // Guardar el último ítem seleccionado que no es el carrito
+                lastSelectedItemId = itemId;
+                handleNavigation(itemId);
             }
-        }
+                return true;
+            }
+        });
 
-        );
+        if (savedInstanceState != null) {
+            // Restaurar el último ítem seleccionado si es necesario
+            lastSelectedItemId = savedInstanceState.getInt("LAST_SELECTED_ITEM_ID", R.id.nav_item1);
+        }
+        bar.setSelectedItemId(lastSelectedItemId); // Establecer el ítem seleccionado al iniciar
 
         btnQr.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,5 +112,31 @@ public class MainMaxRain extends AppCompatActivity {
         options.setBarcodeImageEnabled(false);
 
         barcodeLauncher.launch(options);
+    }
+
+    private void handleNavigation(int itemId) {
+        if (itemId == R.id.nav_item1) {
+            startActivity(new Intent(MainMaxRain.this, MainMaxRain.class));
+        } else if (itemId == R.id.nav_item2) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new ProductosFragment())
+                    .addToBackStack(null)
+                    .commit();
+        }
+        // Añadir más casos usando 'else if' si es necesario
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Restablecer el último ítem seleccionado cuando la actividad se reanuda
+        BottomNavigationView bar = findViewById(R.id.bottomNavigation);
+        bar.setSelectedItemId(lastSelectedItemId);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("LAST_SELECTED_ITEM_ID", lastSelectedItemId); // Guardar el último ítem seleccionado
     }
 }

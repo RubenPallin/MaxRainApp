@@ -1,6 +1,5 @@
 import json
 import secrets
-import bcrypt
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
@@ -74,3 +73,14 @@ def registro(request):
     # Generamos un token para el usuario
     token = secrets.token_hex(16)
     return JsonResponse({"token": token}, status=200)
+
+
+@csrf_exempt
+def lista_familias(request):
+    if request.method != 'GET':
+        return JsonResponse({'error': 'Unsupported HTTP method'}, status=405)
+
+    familias = Familia.objects.all()
+    data = [{'codigo_familia': familia.codigo_familia, 'descripcion_familia': familia.descripcion_familia} for familia in familias]
+    return JsonResponse(data, safe=False)
+

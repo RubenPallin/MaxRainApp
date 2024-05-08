@@ -16,7 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from maxrainapp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('familias/', views.lista_familias),
+    path('familias/<codigo_familia>/marcas/', views.marcas_por_familia),
+    path('marcas/<codigo_marca>/articulos/', views.articulos_por_marca),
 ]
