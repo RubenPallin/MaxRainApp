@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-rro^cl9=yuq9$b!=s)8xw#*j)g^@3wx$*m#(6am#2qe3ha!5f)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'maxrainapp.apps.MaxrainappConfig'
+    'maxrainapp.apps.MaxrainappConfig',
+    'import_export',
 ]
 
 MIDDLEWARE = [

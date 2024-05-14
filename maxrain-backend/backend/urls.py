@@ -20,7 +20,9 @@ from maxrainapp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('familias/', views.lista_familias),
-    path('familias/<codigo_familia>/marcas/', views.marcas_por_familia),
-    path('marcas/<codigo_marca>/articulos/', views.articulos_por_marca),
+    path('sesion/', views.login_sesion),
+    path('registro/', views.registro),
+    path('familias/', views.lista_familias), 
+    path('subfamilias/<str:codigo_familia_principal>/', views.obtener_subfamilias), 
+    
 ]

@@ -9,7 +9,7 @@ from maxrainapp.models import Usuario, Familia, Marca, Articulo, UserSession
 # Create your views here.
 
 
-def sesiones(request):
+def login_sesion(request):
     if request.method != "POST":
         return JsonResponse({"error": "Not supported HTTP method"}, status=405)
     
@@ -80,7 +80,23 @@ def lista_familias(request):
     if request.method != 'GET':
         return JsonResponse({'error': 'Unsupported HTTP method'}, status=405)
 
-    familias = Familia.objects.all()
-    data = [{'codigo_familia': familia.codigo_familia, 'descripcion_familia': familia.descripcion_familia} for familia in familias]
-    return JsonResponse(data, safe=False)
+    try:
+        familias = Familia.objects.all()
+    except Familia.DoesNotExist:
+        return JsonResponse({'error': 'Familia not found.'}, status=404)
+    
+    return JsonResponse([familia.to_json() for familia in familias], safe=False, status=200)
+
+@csrf_exempt
+def obtener_subfamilias(request, codigo_familia_principal):
+    try:
+        # Obtener las subfamilias de la familia principal
+        subfamilias = Familia.objects.filter(codigo_familia__startswith=codigo_familia_principal).exclude(codigo_familia=codigo_familia_principal)
+        
+        # Convertir las subfamilias a un formato JSON
+        subfamilias_json = [{'codigo_familia': subfamilia.codigo_familia, 'descripcion_familia': subfamilia.descripcion_familia} for subfamilia in subfamilias]
+        
+        return JsonResponse(subfamilias_json, safe=False)
+    except Familia.DoesNotExist:
+        return JsonResponse({'error': 'Subfamilias not found.'}, status=404)
 

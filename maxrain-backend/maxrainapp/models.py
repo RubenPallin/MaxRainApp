@@ -7,6 +7,7 @@ class Usuario(models.Model):
     apellido = models.CharField(max_length=255)
     contraseña = models.CharField(max_length=255)
     email = models.EmailField(unique= True)
+    telefono = models.CharField(max_length=20, blank=True, null=True)
     
     def __str__(self):
         return self.name
@@ -23,10 +24,21 @@ class Familia(models.Model):
 
     def __str__(self):
         return self.descripcion_familia
+    
+
+    def to_json(self):
+        return {
+            "codigo_familia": self.codigo_familia,
+            "descripcion_familia": self.descripcion_familia,
+        }
+    
 
 class Marca(models.Model):
     codigo_marca = models.CharField(max_length=10)
     descripcion = models.TextField()
+
+    def __str__(self):
+        return self.descripcion
 
 
 class Articulo(models.Model):
@@ -43,26 +55,26 @@ class Articulo(models.Model):
     destacado = models.BooleanField(default=False)
     codigo_ean = models.CharField(max_length=13, blank=True, null=True)
     tag = models.CharField(max_length=100, blank=True)
-    precio = models.DecimalField(max_digits=10, decimal_places=2)
+    precio = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
         return self.descripcion
 
-    def to_json(self):
-        return {
-            'id': self.id,
-            'codigo_articulo': self.codigo_articulo,
-            'descripcion': self.descripcion,
-            'familia': self.familia.descripcion,
-            'marca': self.marca.nombre,
-            'enabled': self.enabled,
-            'ecotasa': float(self.ecotasa),
-            'multiplo_cantidad': self.multiplo_cantidad,
-            'liquidacion': self.liquidacion,
-            'novedad': self.novedad,
-            'oferta': self.oferta,
-            'destacado': self.destacado,
-            'codigo_ean': self.codigo_ean,
-            'tag': self.tag,
-            'precio': float(self.precio)
-        }
+def to_json(self):
+    return {
+        'id': self.id,
+        'codigo_articulo': self.codigo_articulo,
+        'descripcion': self.descripcion,
+        'familia': self.familia.descripcion_familia, 
+        'marca': self.marca.descripcion,  
+        'enabled': self.enabled,
+        'ecotasa': float(self.ecotasa),
+        'multiplo_cantidad': self.multiplo_cantidad,
+        'liquidacion': self.liquidacion,
+        'novedad': self.novedad,
+        'oferta': self.oferta,
+        'destacado': self.destacado,
+        'codigo_ean': self.codigo_ean,
+        'tag': self.tag,
+        'precio': float(self.precio)
+    }
