@@ -5,6 +5,9 @@
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/blue2</item> <!-- Cambia "your_color_primary" por tu color primario -->
         <item name="colorButtonNormal">@color/blue2</item> <!-- Cambia "your_color_button_normal" por el color de fondo que desees -->
+        <item name="progressBarPadding">@color/blue</item>
+
+        <item name="android:statusBarColor">@color/blue</item>
     </style>
 
     <style name="Theme.MyPFC" parent="Base.Theme.MyPFC" />
