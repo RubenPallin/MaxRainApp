@@ -44,6 +44,8 @@ dependencies {
     implementation(libs.navigation.ui)
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
     implementation("com.github.bumptech.glide:glide:4.13.0")
+    implementation("com.android.volley:volley:1.2.1")
+    testImplementation("junit:junit:4.13.2")
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)

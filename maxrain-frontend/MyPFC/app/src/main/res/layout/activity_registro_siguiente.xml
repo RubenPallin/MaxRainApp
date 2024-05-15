@@ -8,7 +8,6 @@
     tools:context=".RegisterSiguiente">
 
 
-
     <TextView
         android:id="@+id/textContraseña"
         android:layout_width="wrap_content"

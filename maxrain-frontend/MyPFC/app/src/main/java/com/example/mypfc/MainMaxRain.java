@@ -4,10 +4,12 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mypfc.databinding.ActivityMainMaxRainBinding;
@@ -58,6 +61,8 @@ public class MainMaxRain extends AppCompatActivity {
         BottomNavigationView bar = findViewById(R.id.bottomNavigation);
 
 
+        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
         bar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 int itemId = menuItem.getItemId();
@@ -70,17 +75,12 @@ public class MainMaxRain extends AppCompatActivity {
                             .addToBackStack(null)
                             .commit();
                 } else if (itemId == R.id.nav_item3) {
-                    // Manejar tercer ítem, por ejemplo abrir otra actividad
                     Intent intent = new Intent(MainMaxRain.this, Carrito.class);
                     startActivity(intent);
                 } else if (itemId == R.id.nav_item4) {
                     // Manejar cuarto ítem
                     startActivity(new Intent(MainMaxRain.this, MiCuenta.class));
-                } else {
-                // Guardar el último ítem seleccionado que no es el carrito
-                lastSelectedItemId = itemId;
-                handleNavigation(itemId);
-            }
+                }
                 return true;
             }
         });
@@ -90,6 +90,7 @@ public class MainMaxRain extends AppCompatActivity {
             lastSelectedItemId = savedInstanceState.getInt("LAST_SELECTED_ITEM_ID", R.id.nav_item1);
         }
         bar.setSelectedItemId(lastSelectedItemId); // Establecer el ítem seleccionado al iniciar
+
 
         btnQr.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,7 +105,8 @@ public class MainMaxRain extends AppCompatActivity {
     public void escanear() {
         ScanOptions options = new ScanOptions();
         options.setDesiredBarcodeFormats(ScanOptions.ALL_CODE_TYPES);
-        options.setPrompt("ESCANEAR CODIGO");
+        options.setPrompt("ESCANY el main:EAR CODIGO");
+
         options.setCameraId(0);
         options.setOrientationLocked(false);
         options.setBeepEnabled(false);
@@ -120,7 +122,6 @@ public class MainMaxRain extends AppCompatActivity {
         } else if (itemId == R.id.nav_item2) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, new ProductosFragment())
-                    .addToBackStack(null)
                     .commit();
         }
         // Añadir más casos usando 'else if' si es necesario
@@ -129,9 +130,10 @@ public class MainMaxRain extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Restablecer el último ítem seleccionado cuando la actividad se reanuda
         BottomNavigationView bar = findViewById(R.id.bottomNavigation);
-        bar.setSelectedItemId(lastSelectedItemId);
+        if (bar.getSelectedItemId() != lastSelectedItemId) {
+            bar.setSelectedItemId(lastSelectedItemId);
+        }
     }
 
     @Override

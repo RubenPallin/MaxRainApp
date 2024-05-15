@@ -2,6 +2,7 @@ package com.example.mypfc;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,10 +32,12 @@ public class MaxViewHolder extends RecyclerView.ViewHolder {
     public void bindMaxMethod(MaxData maxData, Activity activity) {
         maxName.setText(maxData.getName());
 
+        Log.d("Glide", "URL de la imagen: " + maxData.getImageURL());
+
         // Cargar la imagen con Glide
         Glide.with(itemView)
-                .load(maxData.getImageURL()) // Aquí debes proporcionar la URL de la imagen
-                .into(maxImage); // Reemplaza "imageView" con el ImageView donde deseas mostrar la imagen
+                .load(maxData.getImageURL())
+                .into(maxImage);
     }
 
 }

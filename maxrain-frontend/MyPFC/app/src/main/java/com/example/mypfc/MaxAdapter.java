@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -21,9 +22,18 @@ public class MaxAdapter extends RecyclerView.Adapter<MaxViewHolder> {
     private List<MaxData> allElements;
     private Activity activity;
 
-    public MaxAdapter(List<MaxData> allElements, Activity activity){
+    private OnItemClickListener listener;
+
+    // Constructor que acepta un listener
+    public MaxAdapter(List<MaxData> allElements, Activity activity, OnItemClickListener listener) {
         this.allElements = allElements;
         this.activity = activity;
+        this.listener = listener;
+    }
+
+    // Interfaz para manejar los clics en los elementos del RecyclerView
+    public interface OnItemClickListener {
+        void onItemClick(MaxData familia);
     }
 
     @NonNull
@@ -38,10 +48,34 @@ public class MaxAdapter extends RecyclerView.Adapter<MaxViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MaxViewHolder holder, int position) {
-        // Obtiene los datos del protagonista en la posición especificada
-        MaxData dataInPositionToBeRendered = allElements.get(position);
-        // Muestra los datos en el ViewHolder utilizando el método showData
-        holder.bindMaxMethod(dataInPositionToBeRendered, activity);
+        // Obtener los datos de la familia en la posición especificada
+        MaxData data = allElements.get(position);
+        // Mostrar los datos en el ViewHolder
+        holder.bindMaxMethod(data, activity);
+
+        // Guardar la posición final
+        final int currentPosition = position;
+
+        // Manejar el clic en la celda del RecyclerView
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Obtener la posición actual del adaptador
+                int adapterPosition = holder.getAdapterPosition();
+                if (adapterPosition != RecyclerView.NO_POSITION) {
+                    // Obtener los datos de la familia en la posición actual
+                    MaxData clickedData = allElements.get(adapterPosition);
+
+                    // Verificar si hay subfamilias asociadas con la familia actual
+                    List<MaxData> subfamilies = clickedData.getSubfamilies();
+                    if (subfamilies != null && !subfamilies.isEmpty()) {
+                        // Si hay subfamilias, agregarlas al conjunto de datos y notificar al adaptador
+                        allElements.addAll(adapterPosition + 1, subfamilies);
+                        notifyDataSetChanged();
+                    }
+                }
+            }
+        });
     }
 
     @Override

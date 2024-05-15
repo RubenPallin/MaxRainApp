@@ -1,35 +1,50 @@
 package com.example.mypfc;
 
-import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MaxData {
-    private String name;
-    private String imageURL;
+import java.util.ArrayList;
+import java.util.List;
 
-    public MaxData(String name, String imageURL){
+public class MaxData {
+
+    private String name;
+    private int imageURL;
+    private int codigoFamilia;
+
+    private List<MaxData> subfamilies;
+
+    public MaxData(String name, int imageURL, int codigoFamilia){
         this.name = name;
         this.imageURL = imageURL;
+        this.codigoFamilia = codigoFamilia;
+        this.subfamilies = new ArrayList<>();
     }
 
-    public MaxData(JSONObject jsonElement) throws JSONException{
-        this.name = jsonElement.getString("descripcion_familia");
-        this.imageURL = "drawable/imagen.png";
+    public MaxData(JSONObject jsonObject) throws JSONException {
+        this.name = jsonObject.getString("descripcion_familia");
+        this.imageURL = R.drawable.imagen; // Aquí asigna el recurso de imagen adecuado
+        this.codigoFamilia = jsonObject.getInt("codigo_familia");
+        this.subfamilies = new ArrayList<>(); // Inicializa la lista de subfamilias
     }
 
     public String getName() {
         return name;
     }
 
-    public String getImageURL() {
+    public int getImageURL() {
         return imageURL;
+    }
+
+    public List<MaxData> getSubfamilies() {
+        return subfamilies;
+    }
+
+    public void addSubfamily(MaxData subfamily) {
+        subfamilies.add(subfamily);
+    }
+
+    public int getCodigoFamilia() {
+        return codigoFamilia;
     }
 }

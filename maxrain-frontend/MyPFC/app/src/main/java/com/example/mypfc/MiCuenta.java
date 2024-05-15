@@ -23,10 +23,13 @@ public class MiCuenta extends AppCompatActivity {
         setContentView(R.layout.activity_mi_cuenta);
 
         Button btnInicio = findViewById(R.id.button_inicio);
-
         Button btnContacto = findViewById(R.id.button_contacto);
         Button btnOpinion = findViewById(R.id.button_opinion);
         Button btnAjustes = findViewById(R.id.button_ajustes);
+        Button btnRegister = findViewById(R.id.button_register);
+
+
+
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -45,6 +48,14 @@ public class MiCuenta extends AppCompatActivity {
             public void onClick(View v) {
             //    Intent intent = new Intent(main_context, );
             //    startActivity(intent)
+            }
+        });
+
+        btnRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(main_context, Register.class);
+                startActivity(intent);
             }
         });
 
