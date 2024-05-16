@@ -4,13 +4,13 @@
 
 
 <p align="left">
-   <img src="https://img.shields.io/badge/STATUS-EN%20DESAROLLO-green">
+   <img src="https://img.shields.io/badge/STATUS-EN%20DESAROLLO-green"> <img src="https://img.shields.io/github/stars/RubenPallin?style=social"><img src="https://img.shields.io/github/license/RubenPallin/MaxRainApp">
 </p>
 
 <h1> <img src="https://github.com/RubenPallin/MaxRainApp/assets/113434110/f9e4335e-d860-411f-920d-b3f8887ad3fb" width="30dp" height="30dp">
 Descripción del proyecto
 </h1>
-Esto es MaxRain, una aplicación oriendtada a la venta de productos de riego, diseñada para satisfacer las necesidades tanto de aficionados al jardín como de profesionales en la agricultura y paisajismo. Con una interfaz intuitiva y una amplia gama de productos, MaxRain se posiciona como la solución integral para todos los requerimientos relacionados con sistemas de riego.
+Esto es MaxRain, una aplicación orientada a la venta de productos de riego, diseñada para satisfacer las necesidades tanto de aficionados al jardín como de profesionales en la agricultura y paisajismo. Con una interfaz intuitiva y una amplia gama de productos, MaxRain se posiciona como la solución integral para todos los requerimientos relacionados con sistemas de riego.
 
 <h1><img src="https://github.com/RubenPallin/MaxRainApp/assets/113434110/8d29325d-e630-4fa7-a07e-82100589d0ee" width="40dp" height="40dp">
    MaxRain Características</h1>
