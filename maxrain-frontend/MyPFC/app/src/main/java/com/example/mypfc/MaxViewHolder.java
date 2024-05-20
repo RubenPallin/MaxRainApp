@@ -1,6 +1,8 @@
 package com.example.mypfc;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,9 +29,23 @@ public class MaxViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         maxName = (TextView) itemView.findViewById(R.id.text_view_holder);
         maxImage = (ImageView) itemView.findViewById(R.id.image_view_holder);
+
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (maxData != null) { // Verificar si maxData no es nulo
+                    Context context = v.getContext();
+                    Intent intent = new Intent(context, SubFamilias.class);
+                    intent.putExtra("codigo_familia", maxData.getCodigoFamilia());
+                    context.startActivity(intent);
+                }
+            }
+        });
+
     }
 
     public void bindMaxMethod(MaxData maxData, Activity activity) {
+        this.maxData = maxData;
         maxName.setText(maxData.getName());
 
         Log.d("Glide", "URL de la imagen: " + maxData.getImageURL());
@@ -38,6 +54,8 @@ public class MaxViewHolder extends RecyclerView.ViewHolder {
         Glide.with(itemView)
                 .load(maxData.getImageURL())
                 .into(maxImage);
+
+
     }
 
 }

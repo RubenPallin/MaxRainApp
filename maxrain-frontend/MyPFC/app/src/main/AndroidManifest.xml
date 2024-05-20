@@ -16,45 +16,39 @@
         android:theme="@style/Theme.MyPFC"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
+        <activity
+            android:name=".SubFamilias"
+            android:exported="false" />
         <activity
             android:name=".RegisterSiguiente"
             android:exported="false" />
-
         <activity
             android:name=".Carrito"
             android:exported="false" />
-
         <activity
             android:name=".Register"
             android:exported="false" />
-
         <activity
             android:name=".ActivityEscanear"
             android:exported="false"
             android:screenOrientation="fullSensor"
             android:windowSoftInputMode="stateAlwaysHidden" />
-
         <activity
             android:name=".MiCuentaRegristrada"
             android:exported="false" />
-
         <activity
             android:name=".Contacto"
             android:exported="false" />
-
         <activity
             android:name=".Login"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light" />
-
-        <activity android:name=".ProductosFragment"
-            android:exported="false"/>
-
+        <activity
+            android:name=".ProductosFragment"
+            android:exported="false" />
         <activity
             android:name=".MiCuenta"
             android:exported="false" />
-
         <activity
             android:name=".MainMaxRain"
             android:exported="true">
@@ -64,7 +58,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

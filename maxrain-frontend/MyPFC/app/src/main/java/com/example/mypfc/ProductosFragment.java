@@ -42,17 +42,12 @@ public class ProductosFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_productos, container, false);
 
         recyclerView = rootView.findViewById(R.id.recycler_view);
+        //progressBar = rootView.findViewById(R.id.progress_bar);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 
         listaFamilias = new ArrayList<>();
-        adapter = new MaxAdapter(listaFamilias, getActivity(), new MaxAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(MaxData familia) {
-                // Lógica para manejar el clic en la familia
-                // Por ejemplo, obtener las subfamilias de la familia principal y actualizar el RecyclerView
-                obtenerSubfamiliasDeLaFamiliaPrincipal(familia);
-            }
-        });
+
+        adapter = new MaxAdapter(listaFamilias, getActivity());
         recyclerView.setAdapter(adapter);
 
         obtenerFamilias();
@@ -60,10 +55,9 @@ public class ProductosFragment extends Fragment {
         return rootView;
     }
 
-
     private void obtenerFamilias() {
         String url = "http://10.0.2.2:8000/familias/";
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        //progressBar.setVisibility(View.VISIBLE);
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
@@ -72,12 +66,13 @@ public class ProductosFragment extends Fragment {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
+                        //progressBar.setVisibility(View.INVISIBLE);
                         try {
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject jsonObject = response.getJSONObject(i);
                                 String codigoFamilia = jsonObject.getString("codigo_familia");
                                 if (codigoFamilia.matches("^(0[1-9]|1[0-2])$")) {
-                                    MaxData familia = new MaxData(jsonObject); // Aquí asignamos la ID del recurso drawable
+                                    MaxData familia = new MaxData(jsonObject);
                                     listaFamilias.add(familia);
                                 }
                             }
@@ -90,54 +85,13 @@ public class ProductosFragment extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        //progressBar.setVisibility(View.INVISIBLE);
                         error.printStackTrace();
                     }
                 }
         );
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         requestQueue.add(jsonArrayRequest);
-    }
-    private void obtenerSubfamiliasDeLaFamiliaPrincipal(MaxData familia) {
-        String url = "http://10.0.2.2:8000/subfamilias/" + familia.getCodigoFamilia() + "/";
-
-        // Crear una solicitud JSON array utilizando Volley
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
-                Request.Method.GET,
-                url,
-                null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        try {
-                            // Limpiar la lista actual de subfamilias
-                            familia.getSubfamilies().clear();
-
-                            // Agregar las subfamilias obtenidas del servidor a la lista
-                            for (int i = 0; i < response.length(); i++) {
-                                JSONObject jsonObject = response.getJSONObject(i);
-                                MaxData subfamilia = new MaxData(
-                                        jsonObject.getString("descripcion_familia"),
-                                        R.drawable.imagen,
-                                        jsonObject.getInt("codigo_familia")
-                                );
-                                familia.addSubfamily(subfamilia);
-                            }
-
-                            // Notificar al adaptador que los datos han cambiado
-                            adapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                    }
-                }
-        );
-
-        // Agregar la solicitud a la cola de solicitudes de Volley
-        Volley.newRequestQueue(getActivity()).add(jsonArrayRequest);
     }
 }

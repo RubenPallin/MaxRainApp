@@ -15,6 +15,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MaxAdapter extends RecyclerView.Adapter<MaxViewHolder> {
@@ -22,18 +23,10 @@ public class MaxAdapter extends RecyclerView.Adapter<MaxViewHolder> {
     private List<MaxData> allElements;
     private Activity activity;
 
-    private OnItemClickListener listener;
-
     // Constructor que acepta un listener
-    public MaxAdapter(List<MaxData> allElements, Activity activity, OnItemClickListener listener) {
-        this.allElements = allElements;
+    public MaxAdapter(List<MaxData> allElements, Activity activity) {
+        this.allElements = allElements != null ? allElements : new ArrayList<>();
         this.activity = activity;
-        this.listener = listener;
-    }
-
-    // Interfaz para manejar los clics en los elementos del RecyclerView
-    public interface OnItemClickListener {
-        void onItemClick(MaxData familia);
     }
 
     @NonNull
@@ -52,30 +45,6 @@ public class MaxAdapter extends RecyclerView.Adapter<MaxViewHolder> {
         MaxData data = allElements.get(position);
         // Mostrar los datos en el ViewHolder
         holder.bindMaxMethod(data, activity);
-
-        // Guardar la posición final
-        final int currentPosition = position;
-
-        // Manejar el clic en la celda del RecyclerView
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Obtener la posición actual del adaptador
-                int adapterPosition = holder.getAdapterPosition();
-                if (adapterPosition != RecyclerView.NO_POSITION) {
-                    // Obtener los datos de la familia en la posición actual
-                    MaxData clickedData = allElements.get(adapterPosition);
-
-                    // Verificar si hay subfamilias asociadas con la familia actual
-                    List<MaxData> subfamilies = clickedData.getSubfamilies();
-                    if (subfamilies != null && !subfamilies.isEmpty()) {
-                        // Si hay subfamilias, agregarlas al conjunto de datos y notificar al adaptador
-                        allElements.addAll(adapterPosition + 1, subfamilies);
-                        notifyDataSetChanged();
-                    }
-                }
-            }
-        });
     }
 
     @Override

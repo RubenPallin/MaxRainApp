@@ -23,9 +23,9 @@ public class MaxData {
 
     public MaxData(JSONObject jsonObject) throws JSONException {
         this.name = jsonObject.getString("descripcion_familia");
-        this.imageURL = R.drawable.imagen; // Aquí asigna el recurso de imagen adecuado
+        this.imageURL = R.drawable.imagen;
         this.codigoFamilia = jsonObject.getInt("codigo_familia");
-        this.subfamilies = new ArrayList<>(); // Inicializa la lista de subfamilias
+        this.subfamilies = new ArrayList<>();
     }
 
     public String getName() {
