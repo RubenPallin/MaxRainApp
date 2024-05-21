@@ -17,12 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from maxrainapp import views
+from django.urls import re_path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('sesion/', views.login_sesion),
     path('registro/', views.registro),
     path('familias/', views.lista_familias), 
-    path('subfamilias/<str:codigo_familia_principal>/', views.obtener_subfamilias), 
-    
+    # Patrón de URL para la vista obtener_subfamilias
+    re_path(r'^subfamilias/(?P<codigo_familia_principal>\w+)/$', views.obtener_subfamilias)
+
 ]

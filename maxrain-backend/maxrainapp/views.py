@@ -2,7 +2,7 @@ import json
 import secrets
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
+from django.http import Http404, JsonResponse
 from maxrainapp.models import Usuario, Familia, Marca, Articulo, UserSession
 
 
@@ -90,13 +90,15 @@ def lista_familias(request):
 @csrf_exempt
 def obtener_subfamilias(request, codigo_familia_principal):
     try:
-        # Obtener las subfamilias de la familia principal
-        subfamilias = Familia.objects.filter(codigo_familia__startswith=codigo_familia_principal).exclude(codigo_familia=codigo_familia_principal)
-        
+        # Obtener la familia principal
+        familia_principal = Familia.objects.get(codigo_familia=codigo_familia_principal)
+
+        # Filtrar las subfamilias de la familia principal
+        subfamilias = familia_principal.subfamilias.all()
+
         # Convertir las subfamilias a un formato JSON
         subfamilias_json = [{'codigo_familia': subfamilia.codigo_familia, 'descripcion_familia': subfamilia.descripcion_familia} for subfamilia in subfamilias]
-        
+
         return JsonResponse(subfamilias_json, safe=False)
     except Familia.DoesNotExist:
-        return JsonResponse({'error': 'Subfamilias not found.'}, status=404)
-
+        raise Http404("Familia principal no encontrada")
