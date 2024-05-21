@@ -36,7 +36,8 @@ public class MaxViewHolder extends RecyclerView.ViewHolder {
                 if (maxData != null) { // Verificar si maxData no es nulo
                     Context context = v.getContext();
                     Intent intent = new Intent(context, SubFamilias.class);
-                    intent.putExtra("codigo_familia", maxData.getCodigoFamilia());
+                    int codigo_familia = maxData.getCodigoFamilia();
+                    intent.putExtra("codigo_familia", codigo_familia);
                     context.startActivity(intent);
                 }
             }
@@ -46,15 +47,12 @@ public class MaxViewHolder extends RecyclerView.ViewHolder {
 
     public void bindMaxMethod(MaxData maxData, Activity activity) {
         this.maxData = maxData;
-        maxName.setText(maxData.getName());
-
-        Log.d("Glide", "URL de la imagen: " + maxData.getImageURL());
+        this.maxName.setText(maxData.getName());
 
         // Cargar la imagen con Glide
         Glide.with(itemView)
                 .load(maxData.getImageURL())
                 .into(maxImage);
-
 
     }
 
