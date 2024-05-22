@@ -12,9 +12,6 @@ import android.widget.ProgressBar;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class Carrito extends AppCompatActivity {
 
@@ -71,7 +68,7 @@ public class Carrito extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, new ProductosFragment())
+                        .replace(R.id.fragment_container, new FamiliasFragment())
                         .addToBackStack(null)
                         .commit();
             }

@@ -82,7 +82,9 @@
         android:background="@android:color/white"
         app:titleTextColor="@android:color/white"
         android:elevation="4dp"
-        tools:ignore="MissingConstraints">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
     </androidx.appcompat.widget.Toolbar>
 
     <ProgressBar

@@ -17,6 +17,24 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".InicioViewHolder"
+            android:exported="false" />
+        <activity
+            android:name=".InicioAdapter"
+            android:exported="false" />
+        <activity
+            android:name=".ArticulosViewHolder"
+            android:exported="false" />
+        <activity
+            android:name=".ArticulosAdapter"
+            android:exported="false" />
+        <activity
+            android:name=".ArticulosData"
+            android:exported="false" />
+        <activity
+            android:name=".Articulos"
+            android:exported="false" />
+        <activity
             android:name=".SubFamilias"
             android:exported="false" />
         <activity
@@ -44,7 +62,7 @@
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light" />
         <activity
-            android:name=".ProductosFragment"
+            android:name=".FamiliasFragment"
             android:exported="false" />
         <activity
             android:name=".MiCuenta"

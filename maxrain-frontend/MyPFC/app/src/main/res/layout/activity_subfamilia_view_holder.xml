@@ -2,14 +2,15 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="65dp"
     android:orientation="horizontal"
-    android:padding="8dp">
+    android:padding="12dp"
+    android:background="@drawable/custom_celda">
 
     <ImageView
         android:id="@+id/image_subfamilia"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_gravity="center_vertical"
         android:layout_weight="0"
         android:src="@drawable/imagen" />
@@ -23,5 +24,13 @@
         android:gravity="center"
         android:text="Subfamilia"
         android:textSize="18sp" />
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity=""
+        android:src="@drawable/flecha"
+        />
 
 </LinearLayout>

@@ -1,15 +1,11 @@
 package com.example.mypfc;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,17 +13,11 @@ import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mypfc.databinding.ActivityMainMaxRainBinding;
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-import com.google.android.material.navigation.NavigationView;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 
@@ -57,7 +47,6 @@ public class MainMaxRain extends AppCompatActivity {
         setContentView(R.layout.activity_main_max_rain);
         btnQr = findViewById(R.id.imageButton);
         binding = ActivityMainMaxRainBinding.inflate(getLayoutInflater());
-        textViewResult = findViewById(R.id.textViewResult);
         BottomNavigationView bar = findViewById(R.id.bottomNavigation);
 
 
@@ -67,11 +56,13 @@ public class MainMaxRain extends AppCompatActivity {
             @Override public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 int itemId = menuItem.getItemId();
                 if (itemId == R.id.nav_item1) {
-
-                } else if (itemId == R.id.nav_item2) {
-                    // Carga el ProductosFragment
                     getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.fragment_container, new ProductosFragment())
+                            .replace(R.id.fragment_container, new InicioFragment())
+                            .addToBackStack(null)
+                            .commit();
+                } else if (itemId == R.id.nav_item2) {
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container, new FamiliasFragment())
                             .addToBackStack(null)
                             .commit();
                 } else if (itemId == R.id.nav_item3) {
@@ -114,17 +105,6 @@ public class MainMaxRain extends AppCompatActivity {
         options.setBarcodeImageEnabled(false);
 
         barcodeLauncher.launch(options);
-    }
-
-    private void handleNavigation(int itemId) {
-        if (itemId == R.id.nav_item1) {
-            startActivity(new Intent(MainMaxRain.this, MainMaxRain.class));
-        } else if (itemId == R.id.nav_item2) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new ProductosFragment())
-                    .commit();
-        }
-        // Añadir más casos usando 'else if' si es necesario
     }
 
     @Override

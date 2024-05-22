@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -23,23 +22,22 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class ProductosFragment extends Fragment {
+public class FamiliasFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private ArrayList<MaxData> listaFamilias;
-    private MaxAdapter adapter;
+    private FamiliasAdapter adapter;
 
-    public ProductosFragment newInstance() {
-        return new ProductosFragment();
+    public FamiliasFragment newInstance() {
+        return new FamiliasFragment();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        View rootView = inflater.inflate(R.layout.fragment_productos, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_familias, container, false);
 
         recyclerView = rootView.findViewById(R.id.recycler_view);
         //progressBar = rootView.findViewById(R.id.progress_bar);
@@ -47,7 +45,7 @@ public class ProductosFragment extends Fragment {
 
         listaFamilias = new ArrayList<>();
 
-        adapter = new MaxAdapter(listaFamilias, getActivity());
+        adapter = new FamiliasAdapter(listaFamilias, getActivity());
         recyclerView.setAdapter(adapter);
 
         obtenerFamilias();
