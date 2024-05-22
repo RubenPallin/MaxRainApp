@@ -44,8 +44,8 @@ class Marca(models.Model):
 class Articulo(models.Model):
     codigo_articulo = models.CharField(max_length=20, unique=True)
     descripcion = models.CharField(max_length=255)
-    familia = models.ForeignKey(Familia, on_delete=models.CASCADE)
-    marca = models.ForeignKey(Marca, on_delete=models.CASCADE)
+    familia = models.ForeignKey(Familia, on_delete=models.CASCADE, default=None)
+    marca = models.ForeignKey(Marca, on_delete=models.CASCADE, default=None)
     enabled = models.BooleanField(default=True)
     ecotasa = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     multiplo_cantidad = models.PositiveIntegerField(default=1)

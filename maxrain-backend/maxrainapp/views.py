@@ -83,7 +83,7 @@ def lista_familias(request):
     try:
         familias = Familia.objects.all()
     except Familia.DoesNotExist:
-        return JsonResponse({'error': 'Familia not found.'}, status=404)
+        return JsonResponse({'error': 'Familia no encontrada.'}, status=404)
     
     return JsonResponse([familia.to_json() for familia in familias], safe=False, status=200)
 
@@ -102,3 +102,15 @@ def obtener_subfamilias(request, codigo_familia_principal):
         return JsonResponse(subfamilias_json, safe=False)
     except Familia.DoesNotExist:
         raise Http404("Familia principal no encontrada")
+    
+
+@csrf_exempt
+def get_articulos(request, codigo_familia):
+    if request.method != 'GET':
+        return JsonResponse({'Error': 'Método HTTP no soportado'}, status=405)
+    try:
+        articulos = Articulo.objects.filter(codigo_familia=codigo_familia)
+        articulos_list = list(articulos.values())
+        return JsonResponse(articulos_list, safe=False)
+    except Articulo.DoesNotExist:
+        return JsonResponse({'error': 'Articulo no encontrado.'}, status=404)
