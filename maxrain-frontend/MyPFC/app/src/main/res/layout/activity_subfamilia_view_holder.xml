@@ -2,15 +2,15 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="65dp"
+    android:layout_height="68dp"
     android:orientation="horizontal"
     android:padding="12dp"
     android:background="@drawable/custom_celda">
 
     <ImageView
         android:id="@+id/image_subfamilia"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_gravity="center_vertical"
         android:layout_weight="0"
         android:src="@drawable/imagen" />

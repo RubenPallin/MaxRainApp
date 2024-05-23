@@ -6,11 +6,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
-    <Toolbar
-        android:id="@+id/toolbar"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_subfamilias"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@android:color/white"
+        android:background="@color/maxcolor"
         app:titleTextColor="@android:color/white"
         app:layout_constraintBottom_toTopOf="@id/recycler_view_subfamilias"
         app:layout_constraintLeft_toLeftOf="parent"

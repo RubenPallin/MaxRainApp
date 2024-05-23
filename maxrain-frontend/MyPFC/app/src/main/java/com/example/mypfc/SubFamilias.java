@@ -2,12 +2,15 @@ package com.example.mypfc;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -33,6 +36,7 @@ public class SubFamilias extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private SubFamiliasAdapter adapter;
+    private Toolbar toolbarSub;
     private List<MaxData> subfamiliasList = new ArrayList<>();
     private int codigoFamiliaPrincipal; // Cambio a int
 
@@ -43,6 +47,17 @@ public class SubFamilias extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recycler_view_subfamilias);
         progressBar = findViewById(R.id.progress_bar_subfamilias);
+        toolbarSub = findViewById(R.id.toolbar_subfamilias);
+
+        setSupportActionBar(toolbarSub);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+            actionBar.setDisplayHomeAsUpEnabled(true);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.flecha2);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -58,9 +73,6 @@ public class SubFamilias extends AppCompatActivity {
     }
 
     private void obtenerPrimerasSubfamilias(int codigoFamiliaPrincipal) {
-        // Esto es necesario porque en el backend, los códigos de familia se esperan con ceros iniciales.
-        //Ya que en la base de datos figura así.
-        // Por ejemplo, si el código de familia es 2, se formateará como "02".
         String codigoFamiliaFormateado = String.format("%02d", codigoFamiliaPrincipal);
         String url = "http://10.0.2.2:8000/subfamilias/" + codigoFamiliaFormateado;
         progressBar.setVisibility(View.VISIBLE);
@@ -72,21 +84,24 @@ public class SubFamilias extends AppCompatActivity {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        try {
-                            progressBar.setVisibility(View.INVISIBLE);
-                            subfamiliasList.clear(); // Clear the list before adding new items
-                            for (int i = 0; i < response.length(); i++) {
-                                JSONObject jsonObject = response.getJSONObject(i);
-                                MaxData subfamilia = new MaxData(jsonObject);
-                                subfamiliasList.add(subfamilia);
+                        progressBar.setVisibility(View.INVISIBLE);
+                        if (response.length() == 0) {
+                            obtenerArticulos(codigoFamiliaFormateado);  // Llamar a la función para obtener artículos
+                        } else {
+                            try {
+                                subfamiliasList.clear();
+                                for (int i = 0; i < response.length(); i++) {
+                                    JSONObject jsonObject = response.getJSONObject(i);
+                                    MaxData subfamilia = new MaxData(jsonObject);
+                                    subfamiliasList.add(subfamilia);
+                                }
+                                adapter = new SubFamiliasAdapter(subfamiliasList, SubFamilias.this);
+                                recyclerView.setAdapter(adapter);
+                                adapter.notifyDataSetChanged();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Toast.makeText(SubFamilias.this, "Error al procesar los datos", Toast.LENGTH_SHORT).show();
                             }
-                            adapter = new SubFamiliasAdapter(subfamiliasList, SubFamilias.this);
-                            recyclerView.setAdapter(adapter); // Configurar el adaptador y adjuntarlo al RecyclerView
-                            adapter.notifyDataSetChanged(); // Notificar al adaptador que los datos han cambiado
-                        } catch (JSONException e) {
-                            progressBar.setVisibility(View.INVISIBLE);
-                            e.printStackTrace();
-                            Toast.makeText(SubFamilias.this, "Error al procesar los datos", Toast.LENGTH_SHORT).show();
                         }
                     }
                 },
@@ -94,8 +109,13 @@ public class SubFamilias extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         progressBar.setVisibility(View.INVISIBLE);
-                        error.printStackTrace();
-                        Toast.makeText(SubFamilias.this, "Error al obtener los datos", Toast.LENGTH_SHORT).show();
+                        if (error.networkResponse != null && error.networkResponse.statusCode == 404) {
+                            // La subfamilia no tiene más subfamilias, obtener los artículos directamente
+                            obtenerArticulos(codigoFamiliaFormateado);
+                        } else {
+                            error.printStackTrace();
+                            Toast.makeText(SubFamilias.this, "Error al obtener los datos", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
         );
@@ -104,9 +124,11 @@ public class SubFamilias extends AppCompatActivity {
         requestQueue.add(jsonArrayRequest);
     }
 
-    public void obtenerSubfamiliasAdicionales(String codigoFamilia) {
-        // No necesitamos formatear el código de familia porque ya debería estar en el formato correcto
-        String url = "http://10.0.2.2:8000/subfamilias/" + codigoFamilia;
+    public void obtenerSubfamiliasAdicionales(final String codigoFamilia) {
+        // Almacenar el codigoFamilia en una variable final
+        final String codigoFamiliaFinal = codigoFamilia;
+
+        String url = "http://10.0.2.2:8000/subfamilias/" + codigoFamiliaFinal;
         progressBar.setVisibility(View.VISIBLE);
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
@@ -118,13 +140,18 @@ public class SubFamilias extends AppCompatActivity {
                     public void onResponse(JSONArray response) {
                         try {
                             progressBar.setVisibility(View.INVISIBLE);
-                            subfamiliasList.clear(); // Clear the list before adding new items
+                            subfamiliasList.clear();
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject jsonObject = response.getJSONObject(i);
                                 MaxData subfamilia = new MaxData(jsonObject);
                                 subfamiliasList.add(subfamilia);
                             }
-                            adapter.notifyDataSetChanged(); // Notificar al adaptador que los datos han cambiado
+                            if (subfamiliasList.isEmpty()) {
+                                // Si no hay subfamilias adicionales, cargar los productos
+                                obtenerArticulos(codigoFamiliaFinal); // Utilizar codigoFamiliaFinal
+                            } else {
+                                adapter.notifyDataSetChanged();
+                            }
                         } catch (JSONException e) {
                             progressBar.setVisibility(View.INVISIBLE);
                             e.printStackTrace();
@@ -136,8 +163,13 @@ public class SubFamilias extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         progressBar.setVisibility(View.INVISIBLE);
-                        error.printStackTrace();
-                        Toast.makeText(SubFamilias.this, "Error al obtener los datos", Toast.LENGTH_SHORT).show();
+                        if (error.networkResponse != null && error.networkResponse.statusCode == 404) {
+                            // La subfamilia no tiene más subfamilias, obtener los artículos directamente
+                            obtenerArticulos(codigoFamiliaFinal); // Utilizar codigoFamiliaFinal
+                        } else {
+                            error.printStackTrace();
+                            Toast.makeText(SubFamilias.this, "Error al obtener los datos", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
         );
@@ -145,4 +177,59 @@ public class SubFamilias extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(jsonArrayRequest);
     }
+
+    private void obtenerArticulos(String codigoFamilia) {
+        String url = "http://10.0.2.2:8000/articulos/" + codigoFamilia;
+        progressBar.setVisibility(View.VISIBLE);
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        progressBar.setVisibility(View.INVISIBLE);
+                        if (response.length() == 0) {
+                            Toast.makeText(SubFamilias.this, "No se encontraron artículos.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            List<ArticulosData> articulosList = new ArrayList<>();
+                            for (int i = 0; i < response.length(); i++) {
+                                try {
+                                    JSONObject jsonObject = response.getJSONObject(i);
+                                    ArticulosData articulo = new ArticulosData(
+                                            jsonObject.getString("codigo_articulo"),
+                                            jsonObject.getString("descripcion"),
+                                            R.drawable.imagen,  // Aquí deberías cargar la imagen correctamente
+                                            jsonObject.getString("codigo_familia"),
+                                            jsonObject.getString("codigo_marca"),
+                                            jsonObject.getDouble("precio")
+                                    );
+                                    articulosList.add(articulo);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            // Pasar los datos de los artículos a la siguiente actividad
+                            Intent intent = new Intent(SubFamilias.this, Articulos.class);
+                            intent.putParcelableArrayListExtra("articulos", new ArrayList<>(articulosList));
+                            startActivity(intent);
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressBar.setVisibility(View.INVISIBLE);
+                        error.printStackTrace();
+                        Toast.makeText(SubFamilias.this, "Error al obtener los artículos", Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonArrayRequest);
+    }
+
 }

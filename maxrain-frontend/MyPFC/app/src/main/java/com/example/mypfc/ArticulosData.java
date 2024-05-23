@@ -1,6 +1,8 @@
 package com.example.mypfc;
 
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,7 +13,7 @@ import androidx.core.view.WindowInsetsCompat;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ArticulosData extends AppCompatActivity {
+public class ArticulosData implements Parcelable {
 
     private String codigoArticulo;
     private String nombre;
@@ -34,6 +36,39 @@ public class ArticulosData extends AppCompatActivity {
         this.nombre = jsonObject.getString("descripcion");
         this.imageURL =  R.drawable.imagen;
         this.precio = jsonObject.getDouble("precio");
+    }
+
+    protected ArticulosData(Parcel in) {
+        codigoArticulo = in.readString();
+        nombre = in.readString();
+        imageURL = in.readInt();
+        codigoFamilia = in.readString();
+        codigoMarca = in.readString();
+        precio = in.readDouble();
+    }
+    public static final Parcelable.Creator<ArticulosData> CREATOR = new Parcelable.Creator<ArticulosData>() {
+        @Override
+        public ArticulosData createFromParcel(Parcel in) {
+            return new ArticulosData(in);
+        }
+
+        @Override
+        public ArticulosData[] newArray(int size) {
+            return new ArticulosData[size];
+        }
+    };
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(codigoArticulo);
+        parcel.writeString(nombre);
+        parcel.writeInt(imageURL);
+        parcel.writeString(codigoFamilia);
+        parcel.writeString(codigoMarca);
+        parcel.writeDouble(precio);
     }
 
     public String getCodigoArticulo() {

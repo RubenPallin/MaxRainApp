@@ -7,166 +7,205 @@
     android:layout_height="match_parent"
     tools:context=".Register">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/white"
+        app:titleTextColor="@color/black"
+        app:title="Registra tu usuario"
+        android:elevation="4dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
 
-<TextView
-    android:id="@+id/registraUser"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Registra tu usuario"
-    android:textStyle="bold"
-    android:textSize="20dp"
-    android:textColor="@color/black"
-    android:layout_marginTop="30dp"
-    app:layout_constraintTop_toBottomOf="@+id/toolbar"
-    app:layout_constraintLeft_toLeftOf="parent"
-    app:layout_constraintRight_toRightOf="parent"
-    />
+    </androidx.appcompat.widget.Toolbar>
 
-    <TextView
-        android:id="@+id/textNombreUser"
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:text="Nombre"
-        android:textColor="@color/black"
-        android:textSize="18dp"
-        app:layout_constraintStart_toStartOf="@id/sign_up_edittext_username"
-        app:layout_constraintTop_toBottomOf="@id/registraUser" />
-
-    <EditText
-        android:id="@+id/sign_up_edittext_username"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Username"
-        android:inputType="text"
-        android:background="@drawable/custom_editext"
-        android:fontFamily="sans-serif"
-        app:layout_constraintTop_toBottomOf="@id/textNombreUser"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-         />
-
-    <TextView
-        android:id="@+id/textApellidos"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Apellidos"
-        android:textSize="18dp"
-        android:textColor="@color/black"
-        android:layout_marginTop="15dp"
-        app:layout_constraintStart_toStartOf="@id/sign_up_edittext_username"
-        app:layout_constraintTop_toBottomOf="@id/sign_up_edittext_username"/>
-
-    <EditText
-        android:id="@+id/sign_up_edittext_apellidos"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Apellidos"
-        android:inputType="text"
-        android:background="@drawable/custom_editext"
-        android:fontFamily="sans-serif"
-        app:layout_constraintStart_toStartOf="@id/textApellidos"
-        app:layout_constraintTop_toBottomOf="@id/textApellidos"
-        android:layout_marginTop="5dp"/>
-
-    <TextView
-        android:id="@+id/textEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:layout_marginTop="15dp"
-        android:text="Email -obligatorio"
-        android:textSize="18dp"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="@id/sign_up_edittext_apellidos"
-        app:layout_constraintTop_toBottomOf="@id/sign_up_edittext_apellidos"/>
-
-    <EditText
-        android:id="@+id/sign_up_edittext_email"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/custom_editext"
-        android:ems="10"
-        android:hint="Correo electrónico"
-        android:inputType="textEmailAddress"
+        android:fillViewport="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/textEmail"
-        app:layout_constraintTop_toBottomOf="@id/textEmail" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toTopOf="@+id/toolbarButton">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/maindiv"
+            >
+
+            <TextView
+                android:id="@+id/textNombreUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nombre"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="@id/sign_up_edittext_username"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/sign_up_edittext_username"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Username"
+                android:inputType="text"
+                android:background="@drawable/custom_editext"
+                android:fontFamily="sans-serif"
+                app:layout_constraintTop_toBottomOf="@id/textNombreUser"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                />
+
+            <TextView
+                android:id="@+id/textApellidos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Apellidos"
+                android:textSize="18dp"
+                android:textColor="@color/black"
+                android:layout_marginTop="15dp"
+                app:layout_constraintStart_toStartOf="@id/sign_up_edittext_username"
+                app:layout_constraintTop_toBottomOf="@id/sign_up_edittext_username"/>
+
+            <EditText
+                android:id="@+id/sign_up_edittext_apellidos"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Apellidos"
+                android:inputType="text"
+                android:background="@drawable/custom_editext"
+                android:fontFamily="sans-serif"
+                app:layout_constraintStart_toStartOf="@id/textApellidos"
+                app:layout_constraintTop_toBottomOf="@id/textApellidos"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:id="@+id/textEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="15dp"
+                android:text="Email -obligatorio"
+                android:textSize="18dp"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="@id/sign_up_edittext_apellidos"
+                app:layout_constraintTop_toBottomOf="@id/sign_up_edittext_apellidos"/>
+
+            <EditText
+                android:id="@+id/sign_up_edittext_email"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/custom_editext"
+                android:ems="10"
+                android:hint="Correo electrónico"
+                android:inputType="textEmailAddress"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@id/textEmail"
+                app:layout_constraintTop_toBottomOf="@id/textEmail" />
 
 
-    <TextView
-        android:id="@+id/textTelefono"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Teléfono"
-        android:textSize="16dp"
-        android:textColor="@color/black"
-        android:layout_marginTop="15dp"
-        app:layout_constraintStart_toStartOf="@id/sign_up_edittext_email"
-        app:layout_constraintTop_toBottomOf="@id/sign_up_edittext_email"/>
+            <TextView
+                android:id="@+id/textTelefono"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Teléfono"
+                android:textSize="18dp"
+                android:textColor="@color/black"
+                android:layout_marginTop="15dp"
+                app:layout_constraintStart_toStartOf="@id/sign_up_edittext_email"
+                app:layout_constraintTop_toBottomOf="@id/sign_up_edittext_email"/>
 
-    <EditText
-        android:id="@+id/sign_up_edittext_telefono"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Teléfono"
-        android:inputType="text|phone"
-        android:background="@drawable/custom_editext"
-        android:fontFamily="sans-serif"
-        app:layout_constraintStart_toStartOf="@id/textTelefono"
-        app:layout_constraintTop_toBottomOf="@id/textTelefono"
-        android:layout_marginTop="10dp"/>
+            <EditText
+                android:id="@+id/sign_up_edittext_telefono"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Teléfono"
+                android:inputType="text|phone"
+                android:background="@drawable/custom_editext"
+                android:fontFamily="sans-serif"
+                app:layout_constraintStart_toStartOf="@id/textTelefono"
+                app:layout_constraintTop_toBottomOf="@id/textTelefono"
+                android:layout_marginTop="10dp"/>
 
 
-    <TextView
-        android:id="@+id/textContrasena"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Contraseña"
-        android:textSize="18dp"
-        android:textColor="@color/black"
-        android:layout_marginTop="15dp"
-        app:layout_constraintStart_toStartOf="@id/sign_up_edittext_telefono"
-        app:layout_constraintTop_toBottomOf="@id/sign_up_edittext_telefono"/>
+            <TextView
+                android:id="@+id/textContrasena"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contraseña"
+                android:textSize="18dp"
+                android:textColor="@color/black"
+                android:layout_marginTop="15dp"
+                app:layout_constraintStart_toStartOf="@id/sign_up_edittext_telefono"
+                app:layout_constraintTop_toBottomOf="@id/sign_up_edittext_telefono"/>
 
-    <EditText
-        android:id="@+id/sign_up_edittext_contrasena"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Contraseña"
-        android:inputType="textPassword"
-        android:background="@drawable/custom_editext"
-        app:layout_constraintStart_toStartOf="@+id/textContrasena"
-        app:layout_constraintTop_toBottomOf="@+id/textContrasena"/>
+            <EditText
+                android:id="@+id/sign_up_edittext_contrasena"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Contraseña"
+                android:inputType="textPassword"
+                android:background="@drawable/custom_editext"
+                app:layout_constraintStart_toStartOf="@+id/textContrasena"
+                app:layout_constraintTop_toBottomOf="@+id/textContrasena"/>
 
-    <TextView
-        android:id="@+id/textRepetirContrasena"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Repetir contraseña"
-        android:textSize="18dp"
-        android:textColor="@color/black"
-        android:layout_marginTop="15dp"
-        app:layout_constraintStart_toStartOf="@+id/sign_up_edittext_contrasena"
-        app:layout_constraintTop_toBottomOf="@+id/sign_up_edittext_contrasena" />
+            <TextView
+                android:id="@+id/textRepetirContrasena"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Repetir contraseña"
+                android:textSize="18dp"
+                android:textColor="@color/black"
+                android:layout_marginTop="15dp"
+                app:layout_constraintStart_toStartOf="@+id/sign_up_edittext_contrasena"
+                app:layout_constraintTop_toBottomOf="@+id/sign_up_edittext_contrasena" />
 
-    <EditText
-        android:id="@+id/sign_up_edittext_repetir_contrasena"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Repetir Contraseña"
-        android:inputType="textPassword"
-        android:background="@drawable/custom_editext"
-        app:layout_constraintStart_toStartOf="@+id/textRepetirContrasena"
-        app:layout_constraintTop_toBottomOf="@id/textRepetirContrasena"
-        />
+            <EditText
+                android:id="@+id/sign_up_edittext_repetir_contrasena"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Repetir Contraseña"
+                android:inputType="textPassword"
+                android:background="@drawable/custom_editext"
+                app:layout_constraintStart_toStartOf="@+id/textRepetirContrasena"
+                app:layout_constraintTop_toBottomOf="@id/textRepetirContrasena"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarButton"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@android:color/white"
+        app:titleTextColor="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <Button
+            android:id="@+id/button_register"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_button_back"
+            android:text="Crear mi cuenta"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:layout_gravity="center" />
+    </androidx.appcompat.widget.Toolbar>
+
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -178,41 +217,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@android:color/white"
-        app:titleTextColor="@android:color/white"
-        android:elevation="4dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent">
-
-    </androidx.appcompat.widget.Toolbar>
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbarButton"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:background="@android:color/white"
-        app:titleTextColor="@android:color/white"
-        android:elevation="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
-
-
-        <Button
-            android:id="@+id/button_register"
-            android:layout_width="400dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/custom_button_back"
-            android:text="Crear mi cuenta"
-            android:textColor="@color/white"
-            android:textSize="20dp"
-            android:layout_gravity="center" />
-    </androidx.appcompat.widget.Toolbar>
 
 
 

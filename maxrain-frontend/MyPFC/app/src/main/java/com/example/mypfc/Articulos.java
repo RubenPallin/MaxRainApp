@@ -33,7 +33,6 @@ public class Articulos extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ArticulosAdapter adapter;
     private List<ArticulosData> articulosList;
-    private static final String URL = "https://tuapi.com/articulos?codigo_familia=12345"; // Actualiza con tu URL
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,53 +46,27 @@ public class Articulos extends AppCompatActivity {
         adapter = new ArticulosAdapter(articulosList, this);
         recyclerView.setAdapter(adapter);
 
-        String codigoFamilia = getIntent().getStringExtra("codigo_familia");
-        if (codigoFamilia != null) {
-            obtenerArticulos(codigoFamilia);
+        String articulosJson = getIntent().getStringExtra("articulos");
+        if (articulosJson != null) {
+            try {
+                JSONArray articulosArray = new JSONArray(articulosJson);
+                for (int i = 0; i < articulosArray.length(); i++) {
+                    JSONObject jsonObject = articulosArray.getJSONObject(i);
+                    ArticulosData articulo = new ArticulosData(
+                            jsonObject.getString("codigo_articulo"),
+                            jsonObject.getString("descripcion"),
+                            R.drawable.imagen,
+                            jsonObject.getString("codigo_familia"),
+                            jsonObject.getString("codigo_marca"),
+                            jsonObject.getDouble("precio")
+                    );
+                    articulosList.add(articulo);
+                }
+                adapter.notifyDataSetChanged();
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Toast.makeText(Articulos.this, "Error al procesar los datos", Toast.LENGTH_SHORT).show();
+            }
         }
-    }
-
-
-    private void obtenerArticulos(String codigoFamilia) {
-            String url = "http://10.0.2.2:8000/articulos/" + codigoFamilia;
-            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
-                    Request.Method.GET,
-                    url,
-                    null,
-                    new Response.Listener<JSONArray>() {
-                        @Override
-                        public void onResponse(JSONArray response) {
-                            try {
-                                articulosList.clear();
-                                for (int i = 0; i < response.length(); i++) {
-                                    JSONObject jsonObject = response.getJSONObject(i);
-                                    ArticulosData articulo = new ArticulosData(
-                                            jsonObject.getString("codigo_articulo"),
-                                            jsonObject.getString("descripcion"),
-                                            R.drawable.imagen,
-                                            jsonObject.getString("codigo_familia"),
-                                            jsonObject.getString("codigo_marca"),
-                                            jsonObject.getDouble("precio")
-                                    );
-                                    articulosList.add(articulo);
-                                }
-                                adapter.notifyDataSetChanged();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                Toast.makeText(Articulos.this, "Error al procesar los datos", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            error.printStackTrace();
-                            Toast.makeText(Articulos.this, "Error al obtener los datos", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-            );
-
-            RequestQueue requestQueue = Volley.newRequestQueue(this);
-            requestQueue.add(jsonArrayRequest);
     }
 }
