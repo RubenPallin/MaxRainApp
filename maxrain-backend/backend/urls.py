@@ -26,5 +26,5 @@ urlpatterns = [
     path('familias/', views.lista_familias), 
     # Patrón de URL para la vista obtener_subfamilias
     re_path(r'^subfamilias/(?P<codigo_familia_principal>\w+)/$', views.obtener_subfamilias),
-    path('articulos/', views.get_articulos)
+    path('articulos/<str:codigo_familia>', views.get_articulos)
 ]

@@ -109,7 +109,8 @@ def get_articulos(request, codigo_familia):
     if request.method != 'GET':
         return JsonResponse({'Error': 'Método HTTP no soportado'}, status=405)
     try:
-        articulos = Articulo.objects.filter(codigo_familia=codigo_familia)
+        # Filtrar los artículos por el código de familia
+        articulos = Articulo.objects.filter(familia__codigo_familia=codigo_familia)
         articulos_list = list(articulos.values())
         return JsonResponse(articulos_list, safe=False)
     except Articulo.DoesNotExist:
