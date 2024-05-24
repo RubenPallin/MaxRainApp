@@ -27,18 +27,15 @@ public class ArticulosViewHolder extends RecyclerView.ViewHolder {
     public ArticulosViewHolder(@NonNull View itemView) {
         super(itemView);
         nombreData = (TextView) itemView.findViewById(R.id.textArticulo);
-        imageArt = (ImageView) itemView.findViewById(R.id.imageArticulo);
+        imageArt = (ImageView) itemView.findViewById(R.id.image_subfamilia);
         precio = (TextView) itemView.findViewById(R.id.precioArticulo);
     }
 
-    public void bindArticulos(ArticulosData artData) {
-        this.artData = artData;
-        this.nombreData.setText(artData.getNombre());
-
-        // Cargar la imagen con Glide
-        Glide.with(itemView)
-                .load(artData.getImageURL())
+    public void bindArticulo(ArticulosData articulo) {
+        nombreData.setText(articulo.getNombre());
+        precio.setText(String.valueOf(articulo.getPrecio())); // Convertimos el precio a String
+        Glide.with(itemView.getContext())
+                .load(articulo.getImageURL())
                 .into(imageArt);
-        this.precio.setText((CharSequence) precio);
     }
 }

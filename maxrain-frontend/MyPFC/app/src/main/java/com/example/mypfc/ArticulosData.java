@@ -13,7 +13,7 @@ import androidx.core.view.WindowInsetsCompat;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ArticulosData implements Parcelable {
+public class ArticulosData  {
 
     private String codigoArticulo;
     private String nombre;
@@ -57,19 +57,6 @@ public class ArticulosData implements Parcelable {
             return new ArticulosData[size];
         }
     };
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(codigoArticulo);
-        parcel.writeString(nombre);
-        parcel.writeInt(imageURL);
-        parcel.writeString(codigoFamilia);
-        parcel.writeString(codigoMarca);
-        parcel.writeDouble(precio);
-    }
 
     public String getCodigoArticulo() {
         return codigoArticulo;

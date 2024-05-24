@@ -36,7 +36,7 @@ public class ArticulosAdapter extends RecyclerView.Adapter<ArticulosViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ArticulosViewHolder holder, int position) {
         ArticulosData articulos = articulosList.get(position);
-        holder.bindArticulos(articulos);
+        holder.bindArticulo(articulos);
     }
 
     @Override

@@ -109,13 +109,8 @@ public class SubFamilias extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         progressBar.setVisibility(View.INVISIBLE);
-                        if (error.networkResponse != null && error.networkResponse.statusCode == 404) {
-                            // La subfamilia no tiene más subfamilias, obtener los artículos directamente
-                            obtenerArticulos(codigoFamiliaFormateado);
-                        } else {
-                            error.printStackTrace();
-                            Toast.makeText(SubFamilias.this, "Error al obtener los datos", Toast.LENGTH_SHORT).show();
-                        }
+                        error.printStackTrace();
+                        Toast.makeText(SubFamilias.this, "Error al obtener los datos", Toast.LENGTH_SHORT).show();
                     }
                 }
         );
@@ -124,11 +119,9 @@ public class SubFamilias extends AppCompatActivity {
         requestQueue.add(jsonArrayRequest);
     }
 
-    public void obtenerSubfamiliasAdicionales(final String codigoFamilia) {
-        // Almacenar el codigoFamilia en una variable final
-        final String codigoFamiliaFinal = codigoFamilia;
+    public void obtenerSubfamiliasAdicionales(String codigoFamilia) {
 
-        String url = "http://10.0.2.2:8000/subfamilias/" + codigoFamiliaFinal;
+        String url = "http://10.0.2.2:8000/subfamilias/" + codigoFamilia;
         progressBar.setVisibility(View.VISIBLE);
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
@@ -148,7 +141,7 @@ public class SubFamilias extends AppCompatActivity {
                             }
                             if (subfamiliasList.isEmpty()) {
                                 // Si no hay subfamilias adicionales, cargar los productos
-                                obtenerArticulos(codigoFamiliaFinal); // Utilizar codigoFamiliaFinal
+                                obtenerArticulos(codigoFamilia);
                             } else {
                                 adapter.notifyDataSetChanged();
                             }
@@ -165,7 +158,7 @@ public class SubFamilias extends AppCompatActivity {
                         progressBar.setVisibility(View.INVISIBLE);
                         if (error.networkResponse != null && error.networkResponse.statusCode == 404) {
                             // La subfamilia no tiene más subfamilias, obtener los artículos directamente
-                            obtenerArticulos(codigoFamiliaFinal); // Utilizar codigoFamiliaFinal
+                            obtenerArticulos(codigoFamilia);
                         } else {
                             error.printStackTrace();
                             Toast.makeText(SubFamilias.this, "Error al obtener los datos", Toast.LENGTH_SHORT).show();
@@ -179,57 +172,20 @@ public class SubFamilias extends AppCompatActivity {
     }
 
     private void obtenerArticulos(String codigoFamilia) {
-        String url = "http://10.0.2.2:8000/articulos/" + codigoFamilia;
-        progressBar.setVisibility(View.VISIBLE);
-
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
-                Request.Method.GET,
-                url,
-                null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        progressBar.setVisibility(View.INVISIBLE);
-                        if (response.length() == 0) {
-                            Toast.makeText(SubFamilias.this, "No se encontraron artículos.", Toast.LENGTH_SHORT).show();
-                        } else {
-                            List<ArticulosData> articulosList = new ArrayList<>();
-                            for (int i = 0; i < response.length(); i++) {
-                                try {
-                                    JSONObject jsonObject = response.getJSONObject(i);
-                                    ArticulosData articulo = new ArticulosData(
-                                            jsonObject.getString("codigo_articulo"),
-                                            jsonObject.getString("descripcion"),
-                                            R.drawable.imagen,  // Aquí deberías cargar la imagen correctamente
-                                            jsonObject.getString("codigo_familia"),
-                                            jsonObject.getString("codigo_marca"),
-                                            jsonObject.getDouble("precio")
-                                    );
-                                    articulosList.add(articulo);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            // Pasar los datos de los artículos a la siguiente actividad
-                            Intent intent = new Intent(SubFamilias.this, Articulos.class);
-                            intent.putParcelableArrayListExtra("articulos", new ArrayList<>(articulosList));
-                            startActivity(intent);
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        progressBar.setVisibility(View.INVISIBLE);
-                        error.printStackTrace();
-                        Toast.makeText(SubFamilias.this, "Error al obtener los artículos", Toast.LENGTH_SHORT).show();
-                    }
-                }
-        );
-
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(jsonArrayRequest);
+        // Pasa a la actividad Articulos con el código de familia
+        Intent intent = new Intent(SubFamilias.this, Articulos.class);
+        intent.putExtra("codigo_familia", codigoFamilia);
+        startActivity(intent);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            Intent intent = new Intent(SubFamilias.this, FamiliasFragment.class);
+            startActivity(intent);
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

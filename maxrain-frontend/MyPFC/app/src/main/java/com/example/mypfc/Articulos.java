@@ -46,27 +46,64 @@ public class Articulos extends AppCompatActivity {
         adapter = new ArticulosAdapter(articulosList, this);
         recyclerView.setAdapter(adapter);
 
-        String articulosJson = getIntent().getStringExtra("articulos");
-        if (articulosJson != null) {
-            try {
-                JSONArray articulosArray = new JSONArray(articulosJson);
-                for (int i = 0; i < articulosArray.length(); i++) {
-                    JSONObject jsonObject = articulosArray.getJSONObject(i);
-                    ArticulosData articulo = new ArticulosData(
-                            jsonObject.getString("codigo_articulo"),
-                            jsonObject.getString("descripcion"),
-                            R.drawable.imagen,
-                            jsonObject.getString("codigo_familia"),
-                            jsonObject.getString("codigo_marca"),
-                            jsonObject.getDouble("precio")
-                    );
-                    articulosList.add(articulo);
-                }
-                adapter.notifyDataSetChanged();
-            } catch (JSONException e) {
-                e.printStackTrace();
-                Toast.makeText(Articulos.this, "Error al procesar los datos", Toast.LENGTH_SHORT).show();
-            }
+        // Obtener el código de la familia del intent
+        String codigoFamilia = getIntent().getStringExtra("codigo_familia");
+
+        // Verificar si el código de la familia no es null antes de realizar la solicitud de artículos
+        if (codigoFamilia != null && !codigoFamilia.isEmpty()) {
+            // Realizar la solicitud GET para obtener los artículos
+            getArticulos(codigoFamilia);
+        } else {
+            Toast.makeText(this, "El código de familia es nulo o vacío", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void getArticulos(String codigoFamilia) {
+        // URL del servidor para obtener los artículos
+        String url = "http://10.0.2.2:8000/articulos/" + codigoFamilia;
+
+        // Crear la solicitud GET
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        // Procesar la respuesta JSON
+                        try {
+                            for (int i = 0; i < response.length(); i++) {
+                                JSONObject jsonObject = response.getJSONObject(i);
+                                ArticulosData articulo = new ArticulosData(
+                                        jsonObject.getString("codigo_articulo"),
+                                        jsonObject.getString("descripcion"),
+                                        R.drawable.imagen,
+                                        jsonObject.getString("codigo_familia"),
+                                        jsonObject.getString("codigo_marca"),
+                                        jsonObject.getDouble("precio")
+                                );
+                                articulosList.add(articulo);
+                            }
+                            // Notificar al adaptador que se han agregado nuevos datos
+                            adapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(Articulos.this, "Error al procesar los datos", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Manejar errores de la solicitud
+                        error.printStackTrace();
+                        Toast.makeText(Articulos.this, "Error al obtener los datos", Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
+
+        // Agregar la solicitud a la cola de solicitudes
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonArrayRequest);
     }
 }
