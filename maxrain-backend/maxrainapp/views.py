@@ -103,7 +103,7 @@ def obtener_subfamilias(request, codigo_familia_principal):
     except Familia.DoesNotExist:
         raise Http404("Familia principal no encontrada")
     
-
+    
 @csrf_exempt
 def get_articulos(request, codigo_familia):
     if request.method != 'GET':
@@ -112,6 +112,9 @@ def get_articulos(request, codigo_familia):
         # Filtrar los artículos por el código de familia
         articulos = Articulo.objects.filter(familia__codigo_familia=codigo_familia)
         articulos_list = list(articulos.values())
-        return JsonResponse(articulos_list, safe=False)
+        if articulos_list:
+            return JsonResponse(articulos_list, safe=False)
+        else:
+            return JsonResponse({'error': 'Articulos no encontrados para el código de familia proporcionado.'}, status=404)
     except Articulo.DoesNotExist:
         return JsonResponse({'error': 'Articulo no encontrado.'}, status=404)
