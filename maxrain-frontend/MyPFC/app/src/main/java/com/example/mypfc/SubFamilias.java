@@ -1,7 +1,9 @@
 package com.example.mypfc;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -11,6 +13,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -38,7 +41,7 @@ public class SubFamilias extends AppCompatActivity {
     private SubFamiliasAdapter adapter;
     private Toolbar toolbarSub;
     private List<MaxData> subfamiliasList = new ArrayList<>();
-    private int codigoFamiliaPrincipal; // Cambio a int
+    private int codigoFamiliaPrincipal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,12 +55,15 @@ public class SubFamilias extends AppCompatActivity {
         setSupportActionBar(toolbarSub);
 
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null)
+        if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.flecha2);
+            // Cambiar el color de la flecha de retroceso
+            final Drawable upArrow = ContextCompat.getDrawable(this, com.google.android.material.R.drawable.abc_ic_ab_back_material);
+            if (upArrow != null) {
+                upArrow.setColorFilter(ContextCompat.getColor(this, R.color.white), android.graphics.PorterDuff.Mode.SRC_ATOP);
+                actionBar.setHomeAsUpIndicator(upArrow);
+            }
+        }
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -74,7 +80,9 @@ public class SubFamilias extends AppCompatActivity {
 
     private void obtenerPrimerasSubfamilias(int codigoFamiliaPrincipal) {
         String codigoFamiliaFormateado = String.format("%02d", codigoFamiliaPrincipal);
-        String url = "http://10.0.2.2:8000/subfamilias/" + codigoFamiliaFormateado;
+
+        String url = "http://10.0.2.2:8000/subfamilias/" + codigoFamiliaFormateado + "/";
+
         progressBar.setVisibility(View.VISIBLE);
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
@@ -86,7 +94,7 @@ public class SubFamilias extends AppCompatActivity {
                     public void onResponse(JSONArray response) {
                         progressBar.setVisibility(View.INVISIBLE);
                         if (response.length() == 0) {
-                            obtenerArticulos(codigoFamiliaFormateado);  // Llamar a la función para obtener artículos
+                            //obtenerArticulos(codigoFamiliaFormateado);  // Llamar a la función para obtener los artículos
                         } else {
                             try {
                                 subfamiliasList.clear();
@@ -119,69 +127,10 @@ public class SubFamilias extends AppCompatActivity {
         requestQueue.add(jsonArrayRequest);
     }
 
-    public void obtenerSubfamiliasAdicionales(String codigoFamilia) {
-
-        String url = "http://10.0.2.2:8000/subfamilias/" + codigoFamilia;
-        progressBar.setVisibility(View.VISIBLE);
-
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
-                Request.Method.GET,
-                url,
-                null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        try {
-                            progressBar.setVisibility(View.INVISIBLE);
-                            subfamiliasList.clear();
-                            for (int i = 0; i < response.length(); i++) {
-                                JSONObject jsonObject = response.getJSONObject(i);
-                                MaxData subfamilia = new MaxData(jsonObject);
-                                subfamiliasList.add(subfamilia);
-                            }
-                            if (subfamiliasList.isEmpty()) {
-                                // Si no hay subfamilias adicionales, cargar los productos
-                                obtenerArticulos(codigoFamilia);
-                            } else {
-                                adapter.notifyDataSetChanged();
-                            }
-                        } catch (JSONException e) {
-                            progressBar.setVisibility(View.INVISIBLE);
-                            e.printStackTrace();
-                            Toast.makeText(SubFamilias.this, "Error al procesar los datos", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        progressBar.setVisibility(View.INVISIBLE);
-                        if (error.networkResponse != null && error.networkResponse.statusCode == 404) {
-                            // La subfamilia no tiene más subfamilias, obtener los artículos directamente
-                            obtenerArticulos(codigoFamilia);
-                        } else {
-                            error.printStackTrace();
-                            Toast.makeText(SubFamilias.this, "Error al obtener los datos", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }
-        );
-
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(jsonArrayRequest);
-    }
-
-    private void obtenerArticulos(String codigoFamilia) {
-        // Pasa a la actividad Articulos con el código de familia
-        Intent intent = new Intent(SubFamilias.this, Articulos.class);
-        intent.putExtra("codigo_familia", codigoFamilia);
-        startActivity(intent);
-    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            Intent intent = new Intent(SubFamilias.this, FamiliasFragment.class);
-            startActivity(intent);
+
             finish();
             return true;
         }

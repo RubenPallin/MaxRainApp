@@ -40,6 +40,7 @@ dependencies {
     implementation(libs.appcompat)
     implementation ("com.journeyapps:zxing-android-embedded:4.3.0")
     implementation ("androidx.appcompat:appcompat:1.2.0")
+    implementation ("com.google.android.material:material:1.4.0")
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")

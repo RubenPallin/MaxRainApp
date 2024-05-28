@@ -8,7 +8,7 @@
     android:background="@drawable/custom_celda">
 
     <ImageView
-        android:id="@+id/image_subfamilia"
+        android:id="@+id/image_segunda_subfamilia"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="center_vertical"
@@ -16,7 +16,7 @@
         android:src="@drawable/imagen" />
 
     <TextView
-        android:id="@+id/text_view_subfamilia"
+        android:id="@+id/text_view_segunda_subfamilia"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"

@@ -2,29 +2,37 @@ package com.example.mypfc;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-public class SubFamiliasHolder extends RecyclerView.ViewHolder {
+public class SegundasSubfamiliasHolder extends RecyclerView.ViewHolder {
+
     private TextView subfamiliaName;
     private MaxData subfamiliaData;
     private ImageView subfamiliaImage;
     private Context context;
-    private List<MaxData> subfamiliasList;
-    public SubFamiliasHolder(@NonNull View itemView, List<MaxData> subfamiliasList) {
+    private List<MaxData> segundasSubfamiliasList;
+
+    public SegundasSubfamiliasHolder(@NonNull View itemView, List<MaxData> segundasSubfamiliasList) {
         super(itemView);
-        this.subfamiliasList = subfamiliasList;
-        subfamiliaName = (TextView) itemView.findViewById(R.id.text_view_subfamilia);
-        subfamiliaImage = (ImageView) itemView.findViewById(R.id.image_subfamilia);
+        this.segundasSubfamiliasList = segundasSubfamiliasList;
+        subfamiliaName = itemView.findViewById(R.id.text_view_segunda_subfamilia);
+        subfamiliaImage = itemView.findViewById(R.id.image_segunda_subfamilia);
         context = itemView.getContext();
 
         itemView.setOnClickListener(new View.OnClickListener() {
@@ -32,17 +40,17 @@ public class SubFamiliasHolder extends RecyclerView.ViewHolder {
             public void onClick(View view) {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
-                    MaxData clickedSubfamilia = subfamiliasList.get(position);
-                    Log.d("SubFamilias", "Código de subfamilia: " + String.format("%04d", clickedSubfamilia.getCodigoFamilia()));
-                    Intent intent = new Intent(context, SegundasSubFamilias.class);
-                    intent.putExtra("codigo_subfamilia", String.format("%04d", clickedSubfamilia.getCodigoFamilia()));
+                    MaxData clickedSegundaSubfamilia = segundasSubfamiliasList.get(position);
+                    Intent intent = new Intent(context, Articulos.class);
+                    // Aquí debes pasar el código de la familia como un Integer
+                    intent.putExtra("codigo_familia", String.format("%06d", clickedSegundaSubfamilia.getCodigoFamilia()));
                     context.startActivity(intent);
                 }
             }
         });
     }
 
-    public void bind(MaxData subfamilia) {
+    public void bindSegundo(MaxData subfamilia) {
         this.subfamiliaData = subfamilia;
         subfamiliaName.setText(subfamilia.getName());
 

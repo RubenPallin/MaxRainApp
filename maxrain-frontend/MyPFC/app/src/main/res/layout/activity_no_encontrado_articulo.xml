@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/texto_no_disp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Producto no disponible"
+        android:textSize="25dp"
+        android:fontFamily="@font/montserrat_regular"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imagen_no_disp"
+        />
+
+    <ImageView
+        android:id="@+id/imagen_no_disp"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:src="@drawable/disponible"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,7 +13,7 @@ import androidx.core.view.WindowInsetsCompat;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ArticulosData  {
+public class ArticulosData {
 
     private String codigoArticulo;
     private String nombre;
@@ -34,29 +34,13 @@ public class ArticulosData  {
     public ArticulosData(JSONObject jsonObject) throws JSONException {
         this.codigoArticulo = jsonObject.getString("codigo_articulo");
         this.nombre = jsonObject.getString("descripcion");
-        this.imageURL =  R.drawable.imagen;
+        this.imageURL = R.drawable.imagen;
+        this.codigoFamilia = jsonObject.getString("familia_id");
+        this.codigoMarca = jsonObject.getString("marca_id");
         this.precio = jsonObject.getDouble("precio");
     }
 
-    protected ArticulosData(Parcel in) {
-        codigoArticulo = in.readString();
-        nombre = in.readString();
-        imageURL = in.readInt();
-        codigoFamilia = in.readString();
-        codigoMarca = in.readString();
-        precio = in.readDouble();
-    }
-    public static final Parcelable.Creator<ArticulosData> CREATOR = new Parcelable.Creator<ArticulosData>() {
-        @Override
-        public ArticulosData createFromParcel(Parcel in) {
-            return new ArticulosData(in);
-        }
-
-        @Override
-        public ArticulosData[] newArray(int size) {
-            return new ArticulosData[size];
-        }
-    };
+    // Getters y otros métodos...
 
     public String getCodigoArticulo() {
         return codigoArticulo;

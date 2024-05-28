@@ -16,8 +16,17 @@
 
 
     <TextView
+        android:id="@+id/articulos_fav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:padding="8dp"
+        android:text="Productos favoritos"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:background="@color/maxcolor"
         />
 
 </FrameLayout>
