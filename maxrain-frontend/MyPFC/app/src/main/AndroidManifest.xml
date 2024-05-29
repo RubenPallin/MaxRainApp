@@ -20,6 +20,9 @@
             android:name=".SegundasSubfamiliasHolder"
             android:exported="false" />
         <activity
+            android:name=".DetalleArticulo"
+            android:exported="false" />
+        <activity
             android:name=".SegundasSubFamilias"
             android:exported="false" />
         <activity

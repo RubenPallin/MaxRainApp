@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".InicioFragment">
@@ -10,23 +11,37 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_inicio"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:padding="16dp"/>
-
 
     <TextView
         android:id="@+id/articulos_fav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="10dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:padding="8dp"
         android:text="Productos favoritos"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:textSize="20dp"
         android:background="@color/maxcolor"
-        />
+        android:layout_below="@id/recycler_view_inicio"
+    />
 
-</FrameLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_favoritos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:padding="16dp"
+        android:layout_below="@id/articulos_fav"
+    />
+
+</LinearLayout>

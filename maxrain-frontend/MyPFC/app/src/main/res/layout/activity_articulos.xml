@@ -26,4 +26,32 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         />
+
+    <TextView
+        android:id="@+id/texto_no_disp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Producto no disponible"
+        android:textSize="25dp"
+        android:fontFamily="@font/montserrat_regular"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imagen_no_disp"
+        android:visibility="gone"
+        />
+
+    <ImageView
+        android:id="@+id/imagen_no_disp"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:src="@drawable/disponible"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
+        />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,6 +2,7 @@ package com.example.mypfc;
 
 import static java.security.AccessController.getContext;
 
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -43,12 +44,17 @@ public class Articulos extends AppCompatActivity {
     private ImageView imagennoDisp;
     private TextView textnoDisp;
 
+    private SharedPreferences sharedPreferences;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_articulos);
         imagennoDisp = findViewById(R.id.imagen_no_disp);
         textnoDisp = findViewById(R.id.texto_no_disp);
+
+        sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
 
         Toolbar toolbarArt = findViewById(R.id.toolbar_articulos);
         setSupportActionBar(toolbarArt);
@@ -99,6 +105,9 @@ public class Articulos extends AppCompatActivity {
                                 articulosList.add(articulo);
                             }
                             adapter.notifyDataSetChanged();
+                            if (articulosList.isEmpty()) {
+                                mostrarNoData();
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Toast.makeText(Articulos.this, "Error al procesar los datos", Toast.LENGTH_SHORT).show();
@@ -108,13 +117,14 @@ public class Articulos extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
                         mostrarNoData();
                     }
                 }
         );
 
         // Obtener la instancia de Volley y agregar la solicitud a la cola de solicitudes
-        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(jsonArrayRequest);
     }
 

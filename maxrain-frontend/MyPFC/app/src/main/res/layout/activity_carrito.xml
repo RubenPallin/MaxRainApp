@@ -2,78 +2,110 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/carritoLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/carritoLayout"
     tools:context=".Carrito">
 
-    <ImageView
-        android:id="@+id/carrito"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_marginTop="130dp"
-        android:src="@drawable/carrito_vacio"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/carritoVacio"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textCarrito"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tú carrito está vacío de momento"
-        android:textColor="@color/black"
-        android:textSize="15dp"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/carrito"
-        app:layout_constraintVertical_bias="0.500" />
+        <ImageView
+            android:id="@+id/carrito"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="130dp"
+            android:src="@drawable/carrito_vacio"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"/>
 
-    <TextView
-        android:id="@+id/textCarrito2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Inicia sesión o navega por la web para encontrar"
-        app:layout_constraintTop_toBottomOf="@+id/textCarrito"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        <TextView
+            android:id="@+id/textCarrito"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tú carrito está vacío de momento"
+            android:textColor="@color/black"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/carrito"
+            app:layout_constraintVertical_bias="0.500"/>
 
-    <TextView
-        android:id="@+id/textCarrito3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="tus productos"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textCarrito2"
-        />
+        <TextView
+            android:id="@+id/textCarrito2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Inicia sesión o navega por la web para encontrar"
+            app:layout_constraintTop_toBottomOf="@+id/textCarrito"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
 
-    <Button
-        android:id="@+id/buttonSession"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/custom_button_back"
-        android:backgroundTint="@color/grey"
-        android:text="Iniciar sesión"
-        app:layout_constraintTop_toBottomOf="@+id/textCarrito3"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+        <TextView
+            android:id="@+id/textCarrito3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="tus productos"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textCarrito2"/>
 
-    <Button
-        android:id= "@+id/buttonCompra"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/another_custom_buttom"
-        android:text="Empezar a comprar"
-        android:textColor="@color/blue2"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@+id/buttonSession"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        <Button
+            android:id="@+id/buttonSession"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/custom_button_back"
+            android:backgroundTint="@color/grey"
+            android:text="Iniciar sesión"
+            app:layout_constraintTop_toBottomOf="@+id/textCarrito3"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <Button
+            android:id="@+id/buttonCompra"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/another_custom_buttom"
+            android:text="Empezar a comprar"
+            android:textColor="@color/blue2"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/buttonSession"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/carritoRegistrado"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_carrito"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:padding="5dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            />
+
+        <Button
+            android:id="@+id/buttonContinuar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Continuar"
+            app:layout_constraintTop_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -98,8 +130,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-
+        app:layout_constraintTop_toTopOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
