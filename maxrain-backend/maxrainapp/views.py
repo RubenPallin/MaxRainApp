@@ -118,3 +118,39 @@ def get_articulos(request, codigo_familia):
             return JsonResponse({'error': 'Articulos no encontrados para el código de familia proporcionado.'}, status=404)
     except Articulo.DoesNotExist:
         return JsonResponse({'error': 'Articulo no encontrado.'}, status=404)
+    
+
+@csrf_exempt
+def dar_like(request, codigo_familia):
+    try:
+        user_token = request.headers.get('user-token')
+        if not user_token:
+            return JsonResponse({"error": "User token is required"}, status=400)
+
+        user_session = get_object_or_404(UserSession, token=user_token)
+        articulo = get_object_or_404(Articulo, codigo_familia=codigo_familia)
+
+        user_db = user_session.user
+        articulo_db = articulo
+
+        data = json.loads(request.body)
+        liked = data.get('liked', False)
+
+        if liked:
+            articulo_db.liked_by.add(user_db)
+            return JsonResponse({"message": "The article has been liked"}, status=200)
+        else:
+            articulo_db.liked_by.remove(user_db)
+            return JsonResponse({"message": "The article has been unliked"}, status=200)
+
+    except Articulo.DoesNotExist:
+        return JsonResponse({"error": "Article not found"}, status=404)
+
+    except UserSession.DoesNotExist:
+        return JsonResponse({"error": "User session not found"}, status=404)
+
+    except json.JSONDecodeError:
+        return JsonResponse({"error": "Invalid JSON data in request body"}, status=400)
+
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=400)
