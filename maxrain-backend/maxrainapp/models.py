@@ -10,7 +10,7 @@ class Usuario(models.Model):
     telefono = models.CharField(max_length=20, blank=True, null=True)
     
     def __str__(self):
-        return self.name
+        return self.nombre
 
 
 class UserSession(models.Model):
@@ -78,3 +78,11 @@ def to_json(self):
         'tag': self.tag,
         'precio': float(self.precio)
     }
+
+class Carrito(models.Model):
+    usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE)
+
+class CarritoItem(models.Model):
+    carrito = models.ForeignKey(Carrito, on_delete=models.CASCADE)
+    articulo = models.ForeignKey(Articulo, on_delete=models.CASCADE)
+    cantidad = models.PositiveIntegerField(default=1)

@@ -4,7 +4,7 @@ from django.contrib import admin
 from import_export import resources
 from import_export.fields import Field
 from import_export.admin import ImportExportModelAdmin
-from .models import Familia, Marca, Articulo, UserSession, Usuario
+from .models import Familia, Marca, Articulo, UserSession, Usuario, Carrito
 
 class MarcaResource(resources.ModelResource):
     codigo_marca = Field(attribute='codigo_marca', column_name='CODIGO_MARCA')
@@ -33,5 +33,9 @@ class Familia(ImportExportModelAdmin):
     pass
 
 @admin.register(Usuario)
+class Familia(ImportExportModelAdmin):
+    pass
+
+@admin.register(Carrito)
 class Familia(ImportExportModelAdmin):
     pass

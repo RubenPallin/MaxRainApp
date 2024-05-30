@@ -28,4 +28,6 @@ urlpatterns = [
     re_path(r'^subfamilias/(?P<codigo_familia_principal>\w+)/$', views.obtener_subfamilias),
     path('articulos/<str:codigo_familia>/', views.get_articulos),
     path('like/<str:codigo_familia>/', views.dar_like),
+    path('carrito/', views.carrito), 
+    path('carrito/<str:codigo_articulo>', views.carrito_item)
 ]

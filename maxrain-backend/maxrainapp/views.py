@@ -1,27 +1,28 @@
 import json
 import secrets
+import bcrypt
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.http import Http404, JsonResponse
-from maxrainapp.models import Usuario, Familia, Marca, Articulo, UserSession
+from maxrainapp.models import Usuario, Familia, Marca, Articulo, UserSession, Carrito, CarritoItem
 
 
 # Create your views here.
 
-
+@csrf_exempt
 def login_sesion(request):
     if request.method != "POST":
         return JsonResponse({"error": "Not supported HTTP method"}, status=405)
     
     body_json = json.loads(request.body)
-    required_params = ["email", "password"]
+    required_params = ["email", "contraseña"]
     missing_params = [param for param in required_params if param not in body_json]
 
     if missing_params:
         return JsonResponse({"error": "You are missing a parameter"}, status=400)
 
     json_email = body_json["email"]
-    json_password = body_json["password"]
+    json_contraseña = body_json["contraseña"]
 
     try:
         db_user = Usuario.objects.get(email=json_email)
@@ -29,7 +30,7 @@ def login_sesion(request):
     except Usuario.DoesNotExist:
         return JsonResponse({"error": "User not in database"}, status=404)
 
-    if bcrypt.checkpw(json_password.encode("utf8"), db_user.password.encode("utf8")):
+    if bcrypt.checkpw(json_contraseña.encode("utf8"), db_user.contraseña.encode("utf8")):
         random_token = secrets.token_hex(10)
         session = UserSession(user=db_user, token=random_token)
         session.save()
@@ -43,16 +44,17 @@ def registro(request):
         return JsonResponse({"error": "Unsupported HTTP method"}, status=405)
 
     body_json = json.loads(request.body)
-    required_params = ["name", "email", "password"]
+    required_params = ["nombre", "apellido", "email", "contraseña"]
 
     if not all(param in body_json for param in required_params):
         return JsonResponse({"error": "Missing parameter in body request"}, status=400)
 
-    json_name = body_json["name"]
+    json_nombre = body_json["nombre"]
+    json_apellido = body_json["apellido"]
     json_email = body_json["email"]
-    json_password = body_json["password"]
+    json_contraseña = body_json["contraseña"]
 
-    if Usuario.objects.filter(name=json_name).exists():
+    if Usuario.objects.filter(nombre=json_nombre).exists():
         return JsonResponse({"error": "Username already exist"}, status=400)
 
     if "@" not in json_email or len(json_email) < 5:
@@ -62,11 +64,11 @@ def registro(request):
         return JsonResponse({"error": "User already registered."}, status=401)
 
     salted_and_hashed_pass = bcrypt.hashpw(
-        json_password.encode("utf8"), bcrypt.gensalt()
+        json_contraseña.encode("utf8"), bcrypt.gensalt()
     ).decode("utf8")
 
     user_object = Usuario(
-        name=json_name, email=json_email, password=salted_and_hashed_pass
+        nombre=json_nombre, apellido=json_apellido, email=json_email, contraseña=salted_and_hashed_pass
     )
     user_object.save()
 
@@ -154,3 +156,81 @@ def dar_like(request, codigo_familia):
 
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=400)
+    
+def get_authenticated_user(token):
+    try:
+        session = UserSession.objects.get(token=token)
+        return session.user
+    except UserSession.DoesNotExist:
+        return None
+
+@csrf_exempt
+def carrito(request):
+    token = request.headers.get('token')
+    user = get_authenticated_user(token)
+    if user is None:
+        return JsonResponse({"error": "Unauthorized: Invalid session token"}, status=401)
+
+    # Confirmar el usuario que intentas autenticar (por ejemplo, el usuario asociado a la solicitud)
+    user_to_authenticate = request.user
+
+    # Comparar los usuarios
+    if user == user_to_authenticate:
+        # Los usuarios coinciden
+        print("Los usuarios coinciden.")
+    else:
+        # Los usuarios no coinciden
+        print("Los usuarios no coinciden.")
+
+    if request.method == 'GET':
+        try:
+            carrito = Carrito.objects.get(usuario=user)
+            items = CarritoItem.objects.filter(carrito=carrito)
+            items_data = [{"articulo": item.articulo.to_json(), "cantidad": item.cantidad} for item in items]
+            return JsonResponse({"items": items_data}, status=200)
+        except Carrito.DoesNotExist:
+            return JsonResponse({"items": []}, status=200)
+
+    elif request.method == 'POST':
+        try:
+            body_json = json.loads(request.body.decode('utf-8'))
+            codigo_articulo = body_json.get('codigo_articulo')
+            cantidad = body_json.get('cantidad')
+
+            if not codigo_articulo or cantidad is None:
+                return JsonResponse({"error": "Bad Request - 'codigo_articulo' o 'cantidad' no está en el cuerpo de la petición"}, status=400)
+
+            articulo = Articulo.objects.get(codigo_articulo=codigo_articulo)
+            carrito, created = Carrito.objects.get_or_create(usuario=request.user)
+            carrito_item, created = CarritoItem.objects.get_or_create(carrito=carrito, articulo=articulo, defaults={"cantidad": cantidad})
+            
+            if not created:
+                carrito_item.cantidad += cantidad
+                carrito_item.save()
+
+            return JsonResponse({"message": "Artículo añadido al carrito"}, status=200)
+        except Articulo.DoesNotExist:
+            return JsonResponse({"error": "Bad Request - El artículo no existe"}, status=400)
+        except KeyError:
+            return JsonResponse({"error": "Bad Request - El 'codigo_articulo' no está en el cuerpo de la petición"}, status=400)
+
+@csrf_exempt
+def carrito_item(request, codigo_articulo):
+    token = request.headers.get('token')
+    user = get_authenticated_user(token)
+    if user is None:
+        return JsonResponse({"error": "Unauthorized: Invalid session token"}, status=401)
+
+    if request.method == 'DELETE':
+        try:
+            carrito = Carrito.objects.get(usuario=user)
+            articulo = Articulo.objects.get(codigo_articulo=codigo_articulo)
+            carrito_item = CarritoItem.objects.get(carrito=carrito, articulo=articulo)
+            carrito_item.delete()
+            return JsonResponse({"message": "Artículo eliminado del carrito"}, status=200)
+        except Carrito.DoesNotExist:
+            return JsonResponse({"error": "Bad Request - El carrito no existe"}, status=400)
+        except Articulo.DoesNotExist:
+            return JsonResponse({"error": "Bad Request - El artículo no existe"}, status=400)
+        except CarritoItem.DoesNotExist:
+            return JsonResponse({"error": "Bad Request - El artículo no está en el carrito"}, status=400)
