@@ -44,7 +44,7 @@
         />
 
     <EditText
-        android:id="@+id/editTextPassword"
+        android:id="@+id/editTextContraseña"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -67,7 +67,7 @@
         app:layout_constraintHorizontal_bias="0.276"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextPassword"
+        app:layout_constraintTop_toBottomOf="@id/editTextContraseña"
         />
 
     <Button
@@ -79,7 +79,7 @@
         android:text="Acceder"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextPassword" />
+        app:layout_constraintTop_toBottomOf="@id/editTextContraseña" />
 
     <ProgressBar
         android:id="@+id/progressBar"

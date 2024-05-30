@@ -3,6 +3,7 @@ package com.example.mypfc;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +18,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -37,8 +39,8 @@ import java.util.regex.Pattern;
 public class Register extends AppCompatActivity {
 
     private Button btnRegister;
-    public String email, nombre, rcontrasena, contrasena, telefono;
-    public EditText editTextTelefono, editTextEmail, editTextUsername, editTextContrasena, editTextrContrasena;
+    public String email, nombre, rcontrasena, apellido, contrasena, telefono;
+    public EditText editTextTelefono, editTextApellido, editTextEmail, editTextUsername, editTextContrasena, editTextrContrasena;
 
     private final Context context = Register.this;
     private RequestQueue queue;
@@ -57,18 +59,21 @@ public class Register extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Show the button to go back
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null)
+        if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.flecha2);
+            // Cambiar el color de la flecha de retroceso
+            final Drawable upArrow = ContextCompat.getDrawable(this, com.google.android.material.R.drawable.abc_ic_ab_back_material);
+            if (upArrow != null) {
+                upArrow.setColorFilter(ContextCompat.getColor(this, R.color.white), android.graphics.PorterDuff.Mode.SRC_ATOP);
+                actionBar.setHomeAsUpIndicator(upArrow);
+            }
+        }
 
         queue = Volley.newRequestQueue(context);
 
         editTextTelefono = findViewById(R.id.sign_up_edittext_telefono);
+        editTextApellido = findViewById(R.id.sign_up_edittext_apellidos);
         editTextUsername = findViewById(R.id.sign_up_edittext_username);
         editTextEmail = findViewById(R.id.sign_up_edittext_email);
         editTextContrasena = findViewById(R.id.sign_up_edittext_contrasena);
@@ -80,6 +85,7 @@ public class Register extends AppCompatActivity {
 
 
                 nombre = editTextUsername.getText().toString().trim();
+                apellido = editTextApellido.getText().toString().trim();
                 email = editTextEmail.getText().toString().trim();
                 telefono = editTextTelefono.getText().toString().trim();
                 contrasena = editTextContrasena.getText().toString().trim();
@@ -107,6 +113,7 @@ public class Register extends AppCompatActivity {
         JSONObject body = new JSONObject();
         try {
             body.put("nombre", nombre);
+            body.put("apellido", apellido);
             body.put("email", email);
             body.put("contraseña", contrasena);
         } catch (JSONException e) {

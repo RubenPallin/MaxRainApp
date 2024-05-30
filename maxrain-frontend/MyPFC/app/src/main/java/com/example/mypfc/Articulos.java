@@ -54,7 +54,6 @@ public class Articulos extends AppCompatActivity {
         imagennoDisp = findViewById(R.id.imagen_no_disp);
         textnoDisp = findViewById(R.id.texto_no_disp);
 
-        sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
 
         Toolbar toolbarArt = findViewById(R.id.toolbar_articulos);
         setSupportActionBar(toolbarArt);

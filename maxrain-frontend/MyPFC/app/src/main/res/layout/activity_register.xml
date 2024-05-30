@@ -11,14 +11,12 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@android:color/white"
-        app:titleTextColor="@color/black"
-        app:title="Registra tu usuario"
-        android:elevation="4dp"
+        android:background="@color/maxcolor"
+        app:title="Subfamilias"
+        app:titleTextColor="@android:color/white"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent">
-
-    </androidx.appcompat.widget.Toolbar>
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
 
     <ScrollView
         android:id="@+id/scrollView"

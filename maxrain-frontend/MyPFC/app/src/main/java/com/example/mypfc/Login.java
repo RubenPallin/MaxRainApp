@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -32,7 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Login extends AppCompatActivity {
-    private EditText editTextEmail, editTextPassword;
+    private EditText editTextEmail, editTextContraseña;
     //private FirebaseAuth mAuth;
     private TextView textView;
     private ProgressBar progressBar;
@@ -46,7 +47,7 @@ public class Login extends AppCompatActivity {
 
         queueForRequests = Volley.newRequestQueue(this);
         editTextEmail = findViewById(R.id.editTextEmail);
-        editTextPassword = findViewById(R.id.editTextPassword);
+        editTextContraseña = findViewById(R.id.editTextContraseña);
         textView = findViewById(R.id.textEnlace);
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.INVISIBLE);
@@ -94,7 +95,7 @@ public class Login extends AppCompatActivity {
         JSONObject requestBody = new JSONObject();
         try {
             requestBody.put("email", editTextEmail.getText().toString());
-            requestBody.put("password", editTextPassword.getText().toString());
+            requestBody.put("contraseña", editTextContraseña.getText().toString());
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
@@ -110,12 +111,13 @@ public class Login extends AppCompatActivity {
                         progressBar.setVisibility(View.INVISIBLE);
                         try {
                             receivedToken = response.getString("token");
+                            Log.d("SavedToken", receivedToken);
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
                         }
 
                         // Obtén una referencia a SharedPreferences
-                        SharedPreferences sharedPreferences = getSharedPreferences("MiSharedPreferences", Context.MODE_PRIVATE);
+                        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
                         // Crea un editor de SharedPreferences para realizar cambios
                         SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -123,6 +125,7 @@ public class Login extends AppCompatActivity {
                         editor.putString("token", receivedToken);
                         // Guarda los cambios
                         editor.apply();
+                        Log.d("SavedToken", receivedToken);
 
                         Intent intent = new Intent(Login.this, MainMaxRain.class);
                         startActivity(intent);

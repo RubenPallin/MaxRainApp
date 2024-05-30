@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +18,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DetalleArticulo extends AppCompatActivity {
     private ImageView imagenMax;
@@ -68,6 +82,8 @@ public class DetalleArticulo extends AppCompatActivity {
         String codigoMarca = intent.getStringExtra("marca");
         int imagenUrl = intent.getIntExtra("imagen", R.drawable.imagen);
 
+        String codigoArticulo = getIntent().getStringExtra("codigo_articulo");
+
         nombreMax.setText(nombre);
         precio.setText(precioTexto);
         marca.setText(codigoMarca);
@@ -80,20 +96,60 @@ public class DetalleArticulo extends AppCompatActivity {
 
         });
 
-        botonCarrito.setOnClickListener(v -> añadirCarrito(nombre, precioTexto, codigoMarca, imagenUrl));
+        botonCarrito.setOnClickListener(v -> añadirArticuloAlCarrito(codigoArticulo));
     }
-    private void añadirCarrito(String nombre, String precio, String marca, int imagen) {
-        // Añadir artículo al carrito en SharedPreferences
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        String cartItem = nombre + ";" + precio + ";" + marca + ";" + imagen;
-        editor.putString(KEY_CART_ITEMS, cartItem);
-        editor.apply();
+    private void añadirArticuloAlCarrito(String codigoArticulo) {
+        // Obtener el token de sesión guardado localmente
+        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+        String sessionToken = sharedPreferences.getString("token", "");
 
-        Toast.makeText(this, "Artículo añadido al carrito", Toast.LENGTH_SHORT).show();
+        Log.d("SessionToken", sessionToken);
 
-        // Redirigir a la pantalla del carrito
-        Intent intent = new Intent(this, Carrito.class);
-        startActivity(intent);
+        if (sessionToken == null || sessionToken.isEmpty()) {
+            Toast.makeText(this, "No se encontró el token de sesión", Toast.LENGTH_SHORT).show();
+            return; // Detener la ejecución si no hay token
+        }
+
+        // Crear un objeto JSON con los datos del artículo
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("codigo_articulo", codigoArticulo);
+            jsonObject.put("cantidad", 1);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        if (codigoArticulo != null) {
+            Log.d("CodigoArticulo", codigoArticulo);
+        } else {
+            Log.d("CodigoArticulo", "El valor de codigoArticulo es nulo");
+        }
+        Log.d("JSONRequest", jsonObject.toString());
+
+        // Crear una solicitud POST a tu nuevo endpoint de carrito
+        String url = "http://10.0.2.2:8000/carrito/";
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
+                response -> {
+                    // Manejar la respuesta del servidor
+                    Toast.makeText(this, "Artículo añadido al carrito", Toast.LENGTH_SHORT).show();
+                },
+                error -> {
+                    // Manejar errores de la solicitud
+                    Log.e("VolleyError", error.toString());
+                    Toast.makeText(this, "Error al añadir el artículo al carrito", Toast.LENGTH_SHORT).show();
+                }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                headers.put("token", sessionToken);
+                return headers;
+            }
+        };
+
+        // Agregar la solicitud a la cola de solicitudes de Volley
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonObjectRequest);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
