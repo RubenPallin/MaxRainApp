@@ -171,22 +171,11 @@ def carrito(request):
     if user is None:
         return JsonResponse({"error": "Unauthorized: Invalid session token"}, status=401)
 
-    # Confirmar el usuario que intentas autenticar (por ejemplo, el usuario asociado a la solicitud)
-    user_to_authenticate = request.user
-
-    # Comparar los usuarios
-    if user == user_to_authenticate:
-        # Los usuarios coinciden
-        print("Los usuarios coinciden.")
-    else:
-        # Los usuarios no coinciden
-        print("Los usuarios no coinciden.")
-
     if request.method == 'GET':
         try:
             carrito = Carrito.objects.get(usuario=user)
             items = CarritoItem.objects.filter(carrito=carrito)
-            items_data = [{"articulo": item.articulo.to_json(), "cantidad": item.cantidad} for item in items]
+            items_data = [{"articulo": item.articulo.to_json_articulos(), "cantidad": item.cantidad} for item in items]
             return JsonResponse({"items": items_data}, status=200)
         except Carrito.DoesNotExist:
             return JsonResponse({"items": []}, status=200)
@@ -201,7 +190,7 @@ def carrito(request):
                 return JsonResponse({"error": "Bad Request - 'codigo_articulo' o 'cantidad' no está en el cuerpo de la petición"}, status=400)
 
             articulo = Articulo.objects.get(codigo_articulo=codigo_articulo)
-            carrito, created = Carrito.objects.get_or_create(usuario=request.user)
+            carrito, created = Carrito.objects.get_or_create(usuario=user)
             carrito_item, created = CarritoItem.objects.get_or_create(carrito=carrito, articulo=articulo, defaults={"cantidad": cantidad})
             
             if not created:

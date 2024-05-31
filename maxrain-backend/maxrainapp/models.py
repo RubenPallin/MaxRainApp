@@ -60,24 +60,24 @@ class Articulo(models.Model):
     def __str__(self):
         return self.descripcion
 
-def to_json(self):
-    return {
-        'id': self.id,
-        'codigo_articulo': self.codigo_articulo,
-        'descripcion': self.descripcion,
-        'familia': self.familia.descripcion_familia, 
-        'marca': self.marca.descripcion,  
-        'enabled': self.enabled,
-        'ecotasa': float(self.ecotasa),
-        'multiplo_cantidad': self.multiplo_cantidad,
-        'liquidacion': self.liquidacion,
-        'novedad': self.novedad,
-        'oferta': self.oferta,
-        'destacado': self.destacado,
-        'codigo_ean': self.codigo_ean,
-        'tag': self.tag,
-        'precio': float(self.precio)
-    }
+    def to_json_articulos(self):
+        return {
+            'id': self.id,
+            'codigo_articulo': self.codigo_articulo,
+            'descripcion': self.descripcion,
+            'familia': self.familia.descripcion_familia, 
+            'marca': self.marca.descripcion,  
+            'enabled': self.enabled,
+            'ecotasa': float(self.ecotasa),
+            'multiplo_cantidad': self.multiplo_cantidad,
+            'liquidacion': self.liquidacion,
+            'novedad': self.novedad,
+            'oferta': self.oferta,
+            'destacado': self.destacado,
+            'codigo_ean': self.codigo_ean,
+            'tag': self.tag,
+            'precio': float(self.precio)
+        }
 
 class Carrito(models.Model):
     usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE)
