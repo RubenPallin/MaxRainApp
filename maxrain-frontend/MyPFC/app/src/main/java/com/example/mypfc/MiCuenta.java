@@ -2,12 +2,18 @@ package com.example.mypfc;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -24,15 +30,23 @@ public class MiCuenta extends AppCompatActivity {
 
         Button btnInicio = findViewById(R.id.button_inicio);
         Button btnContacto = findViewById(R.id.button_contacto);
-        Button btnOpinion = findViewById(R.id.button_opinion);
         Button btnAjustes = findViewById(R.id.button_ajustes);
         Button btnRegister = findViewById(R.id.button_register);
 
 
 
+        Toolbar toolbarPerf = findViewById(R.id.toolbar_perfil);
+        setSupportActionBar(toolbarPerf);
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            // Cambiar el color de la flecha de retroceso
+            final Drawable upArrow = ContextCompat.getDrawable(this, com.google.android.material.R.drawable.abc_ic_ab_back_material);
+            if (upArrow != null) {
+                upArrow.setColorFilter(ContextCompat.getColor(this, R.color.white), android.graphics.PorterDuff.Mode.SRC_ATOP);
+                actionBar.setHomeAsUpIndicator(upArrow);
+            }
         }
 
         btnInicio.setOnClickListener(new View.OnClickListener() {
@@ -59,13 +73,15 @@ public class MiCuenta extends AppCompatActivity {
             }
         });
 
-        btnOpinion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            //    Intent intent = new Intent(main_context, Login.class);
-            //    startActivity(intent);
-            }
-        });
 
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            // Manejar el clic en el botón de retroceso
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

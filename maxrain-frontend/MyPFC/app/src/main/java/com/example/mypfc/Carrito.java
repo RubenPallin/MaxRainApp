@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -17,11 +18,13 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.protocol.HttpRequestHandler;
@@ -31,7 +34,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Carrito extends AppCompatActivity {
 
@@ -39,10 +44,15 @@ public class Carrito extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private static final String PREFS_NAME = "MyAppPrefs";
     private static final String KEY_CART_ITEMS = "CartItems";
-    private static final String KEY_IS_LOGGED_IN = "IsLoggedIn";
+    static final String KEY_IS_LOGGED_IN = "IsLoggedIn";
+    static final String KEY_TOKEN = "Token";
     private RecyclerView recyclerView;
     private CarritoAdapter adapter;
     private List<ArticulosData> articulosCarrito;
+    private View carritoVacio;
+    private View carritoRegistrado;
+    private View contentLayout;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +65,10 @@ public class Carrito extends AppCompatActivity {
         Button btnInicioSesion = findViewById(R.id.buttonSession);
         Button btnEmpezarCompra = findViewById(R.id.buttonCompra);
         Button btnContinuar = findViewById(R.id.buttonContinuar);
-        ProgressBar progressBar = findViewById(R.id.progressBar);
-        View contentLayout = findViewById(R.id.carritoLayout);
+        progressBar = findViewById(R.id.progressBar);
+        contentLayout = findViewById(R.id.carritoLayout);
+        carritoVacio = findViewById(R.id.carritoVacio);
+        carritoRegistrado = findViewById(R.id.carritoRegistrado);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -94,8 +106,6 @@ public class Carrito extends AppCompatActivity {
             }
         }, 2000); // Retraso de 2 segundos
 
-        // Inicializar el carrito
-        obtenerArticulosCarrito();
 
         btnInicioSesion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,29 +138,47 @@ public class Carrito extends AppCompatActivity {
             }
         });
 
+        // Verificar el estado de inicio de sesión y actualizar la interfaz en consecuencia
+        actualizarInterfaz();
+
     }
 
     // Método para obtener los artículos del carrito desde el backend
     private void obtenerArticulosCarrito() {
+        SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        String sessionToken = sharedPreferences.getString(KEY_TOKEN, "");
         // URL del servidor para obtener los artículos del carrito (suponiendo que exista un endpoint /carrito)
         String url = "http://10.0.2.2:8000/carrito/";
 
-        // Crear la solicitud GET
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET,
                 url,
                 null,
-                new Response.Listener<JSONArray>() {
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONArray response) {
+                    public void onResponse(JSONObject response) {
                         try {
-                            articulosCarrito.clear();  // Limpiar la lista antes de agregar nuevos elementos
-                            for (int i = 0; i < response.length(); i++) {
-                                JSONObject jsonObject = response.getJSONObject(i);
-                                // Suponiendo que tienes un método para crear un objeto ArticuloCarrito a partir de un JSONObject
-                                ArticulosData articulo = crearArticuloDesdeJSON(jsonObject);
-                                articulosCarrito.add(articulo);
+                            JSONArray itemsArray = response.getJSONArray("items");
+                            // Limpiar la lista antes de agregar nuevos elementos
+                            articulosCarrito.clear();
+                            for (int i = 0; i < itemsArray.length(); i++) {
+                                JSONObject itemObject = itemsArray.getJSONObject(i);
+                                JSONObject articuloObject = itemObject.getJSONObject("articulo");
+
+                                // Obtener los datos del artículo del carrito
+                                String codigoArticulo = articuloObject.getString("codigo_articulo");
+                                String nombre = articuloObject.getString("descripcion");
+                                double precio = articuloObject.getDouble("precio");
+                                String codigoFamilia = articuloObject.getString("familia_id");
+                                String codigoMarca = articuloObject.getString("marca_id");
+                                int imagen = R.drawable.imagen;
+                                // Obtén la cantidad del artículo del carrito
+                                int cantidad = itemObject.getInt("cantidad");
+
+                                // Agregar el artículo y su cantidad al carrito
+                                articulosCarrito.add(new ArticulosData(codigoArticulo, nombre, imagen , codigoFamilia, codigoMarca, precio));
                             }
+                            // Notificar al adaptador que los datos han cambiado
                             adapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -165,12 +193,39 @@ public class Carrito extends AppCompatActivity {
                         Toast.makeText(Carrito.this, "Error al obtener los artículos del carrito", Toast.LENGTH_SHORT).show();
                     }
                 }
-        );
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                // Agregar el token de sesión como encabezado de autorización
+                Map<String, String> headers = new HashMap<>();
+                headers.put("token", sessionToken);
+                return headers;
+            }
+        };
 
-        // Obtener la instancia de Volley y agregar la solicitud a la cola de solicitudes
+        // Agregar la solicitud a la cola de solicitudes de Volley
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(jsonArrayRequest);
+        requestQueue.add(jsonObjectRequest);
     }
+
+    private void actualizarInterfaz() {
+        boolean isLoggedIn = sharedPreferences.getBoolean(KEY_IS_LOGGED_IN, false);
+
+        if (isLoggedIn) {
+            // Si el usuario está autenticado, muestra el diseño del carrito con artículos
+            carritoVacio.setVisibility(View.GONE);
+            carritoRegistrado.setVisibility(View.VISIBLE);
+            // Obtener y mostrar los artículos del carrito
+            obtenerArticulosCarrito();
+        } else {
+            // Si el usuario no está autenticado, muestra el diseño del carrito vacío
+            carritoVacio.setVisibility(View.VISIBLE);
+            carritoRegistrado.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE); // Ocultar el ProgressBar si el usuario no está logueado
+            // No se llama a obtenerArticulosCarrito() aquí cuando el usuario no está autenticado
+        }
+    }
+
 
     // Método para eliminar un artículo del carrito
     private void eliminarArticuloDelCarrito(String idArticulo) {
@@ -225,7 +280,4 @@ public class Carrito extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-
 }

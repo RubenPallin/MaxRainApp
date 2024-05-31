@@ -1,5 +1,8 @@
 package com.example.mypfc;
 
+import static com.example.mypfc.Carrito.KEY_IS_LOGGED_IN;
+import static com.example.mypfc.Carrito.KEY_TOKEN;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -38,6 +41,7 @@ public class Login extends AppCompatActivity {
     private TextView textView;
     private ProgressBar progressBar;
     private RequestQueue queueForRequests;
+    private static final String PREFS_NAME = "MyAppPrefs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +115,7 @@ public class Login extends AppCompatActivity {
                         progressBar.setVisibility(View.INVISIBLE);
                         try {
                             receivedToken = response.getString("token");
-                            Log.d("SavedToken", receivedToken);
+
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
                         }
@@ -125,7 +129,8 @@ public class Login extends AppCompatActivity {
                         editor.putString("token", receivedToken);
                         // Guarda los cambios
                         editor.apply();
-                        Log.d("SavedToken", receivedToken);
+
+                        guardarToken(receivedToken);
 
                         Intent intent = new Intent(Login.this, MainMaxRain.class);
                         startActivity(intent);
@@ -147,5 +152,14 @@ public class Login extends AppCompatActivity {
         );
 
         queueForRequests.add(request);
+    }
+
+    // Método para guardar el token de autenticación y marcar al usuario como logueado
+    private void guardarToken(String token) {
+        SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(KEY_TOKEN, token);
+        editor.putBoolean(KEY_IS_LOGGED_IN, true);
+        editor.apply();
     }
 }

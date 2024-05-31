@@ -5,10 +5,29 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="30dp"
-    android:layout_marginRight="30dp"
     tools:context=".MiCuenta">
 
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_perfil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/maxcolor"
+            app:title="Subfamilias"
+            app:titleTextColor="@android:color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/linear_perfil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="25dp"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_perfil"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
 
     <TextView
         android:id="@+id/textCuenta"
@@ -16,9 +35,9 @@
         android:layout_height="wrap_content"
         android:text="Mi cuenta"
         android:textSize="30dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tool"
         />
     <TextView
         android:id="@+id/textView1"
@@ -51,7 +70,7 @@
         android:text="Registrarse"
         android:textColor="@color/blue2"
         android:textSize="16dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_inicio"/>
 
@@ -64,7 +83,8 @@
         android:textStyle="bold"
         android:layout_marginTop="40dp"
         app:layout_constraintTop_toBottomOf="@id/button_register"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
 
     <TextView
         android:id="@+id/textView3"
@@ -121,22 +141,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
 
-    <android.widget.Button
-        android:id="@+id/button_opinion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/style_button"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:textColor="@android:color/black"
-        android:textAlignment="viewStart"
-        android:text="Opinión"
-        android:stateListAnimator="@null"
-        android:drawableRight="@drawable/flecha"
-        app:layout_constraintTop_toBottomOf="@id/button_contacto"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
 
     <android.widget.Button
         android:id="@+id/button_ajustes"
@@ -150,9 +154,10 @@
         android:textAlignment="viewStart"
         android:text="Ajustes"
         android:drawableRight="@drawable/flecha"
-        app:layout_constraintTop_toBottomOf="@id/button_opinion"
+        app:layout_constraintTop_toBottomOf="@id/button_contacto"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
 
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
