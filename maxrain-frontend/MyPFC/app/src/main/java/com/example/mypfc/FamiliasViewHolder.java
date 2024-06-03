@@ -40,7 +40,7 @@ public class FamiliasViewHolder extends RecyclerView.ViewHolder {
 
     public void bindMaxMethod(MaxData maxData, Context context) {
         this.maxData = maxData;
-        this.maxName.setText(maxData.getName());
+        this.maxName.setText(maxData.getNombre());
 
         // Cargar la imagen con Glide
         Glide.with(itemView)

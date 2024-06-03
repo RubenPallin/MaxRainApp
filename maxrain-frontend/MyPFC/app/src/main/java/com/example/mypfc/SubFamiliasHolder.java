@@ -44,7 +44,7 @@ public class SubFamiliasHolder extends RecyclerView.ViewHolder {
 
     public void bind(MaxData subfamilia) {
         this.subfamiliaData = subfamilia;
-        subfamiliaName.setText(subfamilia.getName());
+        subfamiliaName.setText(subfamilia.getNombre());
 
         // Cargar la imagen con Glide
         Glide.with(itemView)

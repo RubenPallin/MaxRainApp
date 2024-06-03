@@ -45,6 +45,7 @@ public class ArticulosViewHolder extends RecyclerView.ViewHolder {
                 intent.putExtra("codigo_articulo", artData.getCodigoArticulo());
                 intent.putExtra("nombre", artData.getNombre());
                 intent.putExtra("precio", String.valueOf(artData.getPrecio()));
+                intent.putExtra("familia", artData.getCodigoFamilia());
                 intent.putExtra("marca", artData.getCodigoMarca());
                 intent.putExtra("imagen", artData.getImageURL());
                 context.startActivity(intent);

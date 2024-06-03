@@ -15,33 +15,9 @@
         android:layout_gravity="center_horizontal"
         android:padding="16dp"/>
 
-    <TextView
-        android:id="@+id/articulos_fav"
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="40dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:padding="8dp"
-        android:text="Productos favoritos"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        android:textSize="20dp"
-        android:background="@color/maxcolor"
-        android:layout_below="@id/recycler_view_inicio"
-    />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_favoritos"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:padding="16dp"
-        android:layout_below="@id/articulos_fav"
-    />
+        android:src="@drawable/aspersores2"/>
 
 </LinearLayout>

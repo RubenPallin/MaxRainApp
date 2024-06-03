@@ -5,6 +5,177 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MiCuentaRegristrada">
+    tools:context=".MiCuentaRegistrada">
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_perfil_registrado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/maxcolor"
+        app:title="Subfamilias"
+        app:titleTextColor="@android:color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+
+    <LinearLayout
+        android:id="@+id/linear_registrado"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="25dp"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_perfil_registrado"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <TextView
+            android:id="@+id/text_cuenta_registrada"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tool"
+            />
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:columnCount="2"
+            android:rowCount="2">
+
+            <Button
+                android:id="@+id/button_pedidos"
+                android:layout_width="0dp"
+                android:layout_height="110dp"
+                android:layout_margin="15dp"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:background="@drawable/another_custom_buttom"
+                android:text="Pedidos"
+                android:textColor="@color/blue2"
+                android:textSize="16dp" />
+
+            <Button
+                android:id="@+id/button_alabranes"
+                android:layout_width="0dp"
+                android:layout_height="110dp"
+                android:layout_margin="15dp"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:background="@drawable/another_custom_buttom"
+                android:text="Albaranes"
+                android:textColor="@color/blue2"
+                android:textSize="16dp" />
+
+            <Button
+                android:id="@+id/button_facturas"
+                android:layout_width="0dp"
+                android:layout_height="110dp"
+                android:layout_margin="15dp"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:background="@drawable/another_custom_buttom"
+                android:text="Facturas"
+                android:textColor="@color/blue2"
+                android:textSize="16dp" />
+
+            <Button
+                android:id="@+id/button_favoritos"
+                android:layout_width="0dp"
+                android:layout_height="110dp"
+                android:layout_margin="15dp"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:background="@drawable/another_custom_buttom"
+                android:text="Favoritos"
+                android:textColor="@color/blue2"
+                android:textSize="16dp" />
+        </GridLayout>
+
+        <TextView
+            android:id="@+id/text_datos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sobre mí"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:layout_marginTop="40dp"
+            app:layout_constraintTop_toBottomOf="@id/button_register"
+            app:layout_constraintLeft_toLeftOf="parent"
+            />
+
+        <android.widget.Button
+            android:id="@+id/button_datos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:background="@drawable/style_button"
+            android:textColor="@android:color/black"
+            android:textAlignment="viewStart"
+            android:text="Mis Datos"
+            android:drawableRight="@drawable/flecha"
+            app:layout_constraintTop_toBottomOf="@id/textView6"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <TextView
+            android:id="@+id/text_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Más información"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:layout_marginTop="45dp"
+            app:layout_constraintTop_toBottomOf="@id/textView5"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <android.widget.Button
+            android:id="@+id/button_contacto2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:background="@drawable/style_button"
+            android:textColor="@android:color/black"
+            android:textAlignment="viewStart"
+            android:text="Contacto"
+            android:drawableRight="@drawable/flecha"
+            app:layout_constraintTop_toBottomOf="@id/textView6"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+
+        <android.widget.Button
+            android:id="@+id/button_ajustes2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/style_button"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="@android:color/black"
+            android:textAlignment="viewStart"
+            android:text="Ajustes"
+            android:drawableRight="@drawable/flecha"
+            app:layout_constraintTop_toBottomOf="@id/button_contacto"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <Button
+            android:id="@+id/botonCerrarSesion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cerrar Sesión"
+            android:onClick="cerrarSesion"
+            android:layout_gravity="end"
+             />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

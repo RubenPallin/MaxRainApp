@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+     android:layout_height="match_parent" >
+    <LinearLayout
+        android:id="@+id/main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:context=".MisDatos"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <TextView
+            android:id="@+id/textNombreUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Nombre Usuario"
+            android:textSize="16dp"
+            android:textColor="@color/black"
+            />
+
+        <EditText
+            android:id="@+id/editTextNombre"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:hint="Nombre"
+            android:textStyle="bold"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/texto_apellido"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Nombre Usuario"
+            android:textSize="16dp"
+            android:textColor="@color/black"
+            />
+
+        <EditText
+            android:id="@+id/editar_apellido"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:hint="Nombre"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+    />
+
+        <TextView
+            android:id="@+id/textPass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Contraseña"
+            android:textSize="16dp"
+            android:textColor="@color/black"
+            android:layout_marginTop="15dp"
+            app:layout_constraintStart_toStartOf="@id/editTextNombre"
+            app:layout_constraintTop_toBottomOf="@id/editTextNombre"/>
+
+        <EditText
+            android:id="@+id/editTextContraseña"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:hint="Contraseña"
+            android:inputType="textPassword"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textPass"/>
+
+        <TextView
+            android:id="@+id/mostrar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/black"
+            android:text="@string/mostrar_contraseña"
+            app:layout_constraintStart_toStartOf="@id/editTextContraseña"
+            app:layout_constraintTop_toBottomOf="@+id/editTextContraseña" />
+
+        <TextView
+            android:id="@+id/textEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginTop="15dp"
+            android:text="Email"
+            android:textSize="16dp"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="@id/mostrar"
+            app:layout_constraintTop_toBottomOf="@id/mostrar"/>
+
+        <EditText
+            android:id="@+id/editTextEmail"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:hint="Email"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:inputType="textEmailAddress"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textEmail"/>
+
+        <TextView
+            android:id="@+id/textTelefono"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginTop="15dp"
+            android:text="Teléfono"
+            android:textSize="16dp"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="@id/editTextTelefono"
+            app:layout_constraintTop_toBottomOf="@id/editTextEmail"/>
+
+        <EditText
+            android:id="@+id/editTextTelefono"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:hint="Teléfono"
+            android:inputType="phone"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textTelefono"/>
+
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

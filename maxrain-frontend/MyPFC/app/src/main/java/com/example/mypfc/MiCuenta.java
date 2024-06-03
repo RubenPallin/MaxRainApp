@@ -2,11 +2,14 @@ package com.example.mypfc;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -21,6 +24,9 @@ import androidx.core.view.WindowInsetsCompat;
 public class MiCuenta extends AppCompatActivity {
 
     private Context main_context = this;
+    private static final String PREFS_NAME = "UserPrefs";
+    private static final String KEY_IS_LOGGED_IN = "isLoggedIn";
+    private static final String KEY_USER_NAME = "userName";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +38,12 @@ public class MiCuenta extends AppCompatActivity {
         Button btnContacto = findViewById(R.id.button_contacto);
         Button btnAjustes = findViewById(R.id.button_ajustes);
         Button btnRegister = findViewById(R.id.button_register);
-
+        LinearLayout linearPerfil = findViewById(R.id.linear_perfil);
 
 
         Toolbar toolbarPerf = findViewById(R.id.toolbar_perfil);
         setSupportActionBar(toolbarPerf);
+
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -79,7 +86,8 @@ public class MiCuenta extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             // Manejar el clic en el botón de retroceso
-            finish();
+            Intent intent = new Intent(this, MainMaxRain.class);
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);

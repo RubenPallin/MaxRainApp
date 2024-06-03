@@ -1,7 +1,5 @@
 package com.example.mypfc;
 
-import static com.example.mypfc.Carrito.KEY_IS_LOGGED_IN;
-import static com.example.mypfc.Carrito.KEY_TOKEN;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -42,6 +40,8 @@ public class Login extends AppCompatActivity {
     private ProgressBar progressBar;
     private RequestQueue queueForRequests;
     private static final String PREFS_NAME = "MyAppPrefs";
+    private static final String KEY_TOKEN = "token";
+    private static final String KEY_IS_LOGGED_IN = "isLoggedIn";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,16 +119,6 @@ public class Login extends AppCompatActivity {
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
                         }
-
-                        // Obtén una referencia a SharedPreferences
-                        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
-                        // Crea un editor de SharedPreferences para realizar cambios
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-                        // Almacena el token de sesión
-                        editor.putString("token", receivedToken);
-                        // Guarda los cambios
-                        editor.apply();
 
                         guardarToken(receivedToken);
 

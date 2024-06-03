@@ -119,23 +119,16 @@ public class DetalleArticulo extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if (codigoArticulo != null) {
-            Log.d("CodigoArticulo", codigoArticulo);
-        } else {
-            Log.d("CodigoArticulo", "El valor de codigoArticulo es nulo");
-        }
-        Log.d("JSONRequest", jsonObject.toString());
-
         // Crear una solicitud POST a tu nuevo endpoint de carrito
         String url = "http://10.0.2.2:8000/carrito/";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
                 response -> {
                     // Manejar la respuesta del servidor
                     Toast.makeText(this, "Artículo añadido al carrito", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(this, CarritoRegistrado.class);
+                    startActivity(intent);
                 },
                 error -> {
-                    // Manejar errores de la solicitud
-                    Log.e("VolleyError", error.toString());
                     Toast.makeText(this, "Error al añadir el artículo al carrito", Toast.LENGTH_SHORT).show();
                 }) {
             @Override

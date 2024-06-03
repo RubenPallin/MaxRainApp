@@ -15,7 +15,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyPFC"
         android:usesCleartextTraffic="true"
-        tools:targetApi="31">
+        tools:remove="android:appComponentFactory"
+        tools:targetApi="p">
+        <activity
+            android:name=".MisDatos"
+            android:exported="false" />
+        <activity
+            android:name=".CarritoRegistrado"
+            android:exported="false" />
         <activity
             android:name=".CarritoViewHolder"
             android:exported="false" />
@@ -64,7 +71,7 @@
             android:screenOrientation="fullSensor"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".MiCuentaRegristrada"
+            android:name=".MiCuentaRegistrada"
             android:exported="false" />
         <activity
             android:name=".Contacto"
