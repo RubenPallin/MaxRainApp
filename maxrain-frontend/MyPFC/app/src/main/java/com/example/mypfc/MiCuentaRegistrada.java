@@ -30,11 +30,12 @@ public class MiCuentaRegistrada extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_mi_cuenta_regristrada); // Inicializar los elementos de la interfaz
         textCuentaRegistrada = findViewById(R.id.text_cuenta_registrada);
-        Button buttonPedidos = findViewById(R.id.button_pedidos);
-        Button buttonAlbaranes = findViewById(R.id.button_alabranes);
-        Button buttonFacturas = findViewById(R.id.button_facturas);
-        Button buttonFavoritos = findViewById(R.id.button_favoritos);
+        Button btnPedidos = findViewById(R.id.boton_pedidos);
+        Button btnAlbaranes = findViewById(R.id.boton_alabranes);
+        Button btnFacturas = findViewById(R.id.boton_facturas);
+        Button btnFavoritos = findViewById(R.id.boton_favoritos);
         Button btnSesion = findViewById(R.id.botonCerrarSesion);
+        Button btnDatos = findViewById(R.id.boton_datos);
 
 
         Toolbar toolbarRegis = findViewById(R.id.toolbar_perfil_registrado);
@@ -51,31 +52,40 @@ public class MiCuentaRegistrada extends AppCompatActivity {
         }
 
         // Configurar onClick para los botones
-        buttonPedidos.setOnClickListener(new View.OnClickListener() {
+        btnPedidos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Lógica para el botón de Pedidos
             }
         });
 
-        buttonAlbaranes.setOnClickListener(new View.OnClickListener() {
+        btnAlbaranes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Lógica para el botón de Albaranes
             }
         });
 
-        buttonFacturas.setOnClickListener(new View.OnClickListener() {
+        btnFacturas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Lógica para el botón de Facturas
             }
         });
 
-        buttonFavoritos.setOnClickListener(new View.OnClickListener() {
+        btnFavoritos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Lógica para el botón de Favoritos
+                Intent intent = new Intent(MiCuentaRegistrada.this, Favoritos.class);
+                startActivity(intent);
+            }
+        });
+
+        btnDatos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MiCuentaRegistrada.this, MisDatos.class);
+                startActivity(intent);
             }
         });
 
@@ -94,11 +104,6 @@ public class MiCuentaRegistrada extends AppCompatActivity {
         String apellido = sharedPreferences.getString("apellido", null);
         String email = sharedPreferences.getString("email", null);
         String telefono = sharedPreferences.getString("telefono", null);
-
-        Log.d("MiCuentaRegistrada", "Nombre: " + nombre);
-        Log.d("MiCuentaRegistrada", "Apellido: " + apellido);
-        Log.d("MiCuentaRegistrada", "Email: " + email);
-        Log.d("MiCuentaRegistrada", "Telefono: " + telefono);
 
         // Asegurarse de que los datos no sean nulos antes de usarlos
         if (nombre != null && apellido != null) {

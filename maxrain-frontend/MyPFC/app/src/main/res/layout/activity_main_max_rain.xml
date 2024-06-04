@@ -22,10 +22,10 @@
             android:layout_width="275dp"
             android:layout_height="65dp"
             android:layout_marginRight="15dp"
-            android:padding="9dp"
+            android:padding="21dp"
             android:layout_gravity="center"
             android:drawableStart="@drawable/maxbus"
-            android:hint="   ¿Qué estás buscando?"
+            android:hint="¿Qué estás buscando?"
             android:background="@drawable/custom_buscador"
             />
 

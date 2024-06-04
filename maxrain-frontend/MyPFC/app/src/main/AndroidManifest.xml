@@ -18,6 +18,12 @@
         tools:remove="android:appComponentFactory"
         tools:targetApi="p">
         <activity
+            android:name=".BusquedaFragment"
+            android:exported="false" />
+        <activity
+            android:name=".Favoritos"
+            android:exported="false" />
+        <activity
             android:name=".MisDatos"
             android:exported="false" />
         <activity
@@ -55,9 +61,6 @@
             android:exported="false" />
         <activity
             android:name=".SubFamilias"
-            android:exported="false" />
-        <activity
-            android:name=".RegisterSiguiente"
             android:exported="false" />
         <activity
             android:name=".Carrito"

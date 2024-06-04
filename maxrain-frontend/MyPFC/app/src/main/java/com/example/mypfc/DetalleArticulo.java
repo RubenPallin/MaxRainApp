@@ -92,9 +92,7 @@ public class DetalleArticulo extends AppCompatActivity {
                 .load(imagenUrl)
                 .into(imagenMax);
 
-        botonLike.setOnClickListener(v -> {
-
-        });
+        botonLike.setOnClickListener(v -> likeArticulo(codigoArticulo));
 
         botonCarrito.setOnClickListener(v -> añadirArticuloAlCarrito(codigoArticulo));
     }
@@ -144,6 +142,55 @@ public class DetalleArticulo extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(jsonObjectRequest);
     }
+
+    private void likeArticulo(String codigoArticulo) {
+        // Obtener el token de sesión guardado localmente
+        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+        String sessionToken = sharedPreferences.getString("token", "");
+
+        Log.d("SessionToken", sessionToken);
+
+        if (sessionToken == null || sessionToken.isEmpty()) {
+            Toast.makeText(this, "No se encontró el token de sesión", Toast.LENGTH_SHORT).show();
+            return; // Detener la ejecución si no hay token
+        }
+
+        // Crear un objeto JSON con los datos del artículo
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("codigo_articulo", codigoArticulo);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error al crear el objeto JSON", Toast.LENGTH_SHORT).show();
+            return; // Detener la ejecución si hay un error al crear el JSON
+        }
+
+        // Crear una solicitud POST a tu nuevo endpoint de favoritos
+        String url = "http://10.0.2.2:8000/favoritos/";
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
+                response -> {
+                    // Manejar la respuesta del servidor
+                    Toast.makeText(this, "¡Me gusta!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(this, Favoritos.class);
+                    startActivity(intent);
+                },
+                error -> {
+                    Toast.makeText(this, "Error al darle like al artículo", Toast.LENGTH_SHORT).show();
+                }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                headers.put("token", sessionToken);
+                return headers;
+            }
+        };
+
+        // Agregar la solicitud a la cola de solicitudes de Volley
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonObjectRequest);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {

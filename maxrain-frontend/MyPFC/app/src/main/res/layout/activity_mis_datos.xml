@@ -5,18 +5,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
      android:layout_height="match_parent" >
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_mis_datos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/maxcolor"
+        app:title="Mis Datos"
+        app:titleTextColor="@android:color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+
+
     <LinearLayout
         android:id="@+id/main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         tools:context=".MisDatos"
+        android:padding="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
+
+
         <TextView
-            android:id="@+id/textNombreUser"
+            android:id="@+id/texto_nombre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
@@ -26,7 +42,7 @@
             />
 
         <EditText
-            android:id="@+id/editTextNombre"
+            android:id="@+id/editar_nombre"
             android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:hint="Nombre"
@@ -38,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:text="Nombre Usuario"
+            android:text="Apellidos"
             android:textSize="16dp"
             android:textColor="@color/black"
             />
@@ -47,33 +63,28 @@
             android:id="@+id/editar_apellido"
             android:layout_width="220dp"
             android:layout_height="wrap_content"
-            android:hint="Nombre"
+            android:hint="Apellidos"
             android:textStyle="bold"
             android:textColor="@color/black"
     />
 
         <TextView
-            android:id="@+id/textPass"
+            android:id="@+id/texto_contraseña"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Contraseña"
             android:textSize="16dp"
             android:textColor="@color/black"
-            android:layout_marginTop="15dp"
-            app:layout_constraintStart_toStartOf="@id/editTextNombre"
-            app:layout_constraintTop_toBottomOf="@id/editTextNombre"/>
+            android:layout_marginTop="15dp" />
 
         <EditText
-            android:id="@+id/editTextContraseña"
+            android:id="@+id/editar_contraseña"
             android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:hint="Contraseña"
             android:inputType="textPassword"
             android:textStyle="bold"
-            android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textPass"/>
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/mostrar"
@@ -81,12 +92,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:textColor="@color/black"
-            android:text="@string/mostrar_contraseña"
-            app:layout_constraintStart_toStartOf="@id/editTextContraseña"
-            app:layout_constraintTop_toBottomOf="@+id/editTextContraseña" />
+            android:text="@string/mostrar_contraseña" />
 
         <TextView
-            android:id="@+id/textEmail"
+            android:id="@+id/texto_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
@@ -94,23 +103,20 @@
             android:text="Email"
             android:textSize="16dp"
             android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="@id/mostrar"
-            app:layout_constraintTop_toBottomOf="@id/mostrar"/>
+            />
 
         <EditText
-            android:id="@+id/editTextEmail"
+            android:id="@+id/editar_email"
             android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:hint="Email"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:inputType="textEmailAddress"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textEmail"/>
+            />
 
         <TextView
-            android:id="@+id/textTelefono"
+            android:id="@+id/texto_telefono"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
@@ -118,20 +124,16 @@
             android:text="Teléfono"
             android:textSize="16dp"
             android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="@id/editTextTelefono"
-            app:layout_constraintTop_toBottomOf="@id/editTextEmail"/>
+            />
 
         <EditText
-            android:id="@+id/editTextTelefono"
+            android:id="@+id/editar_telefono"
             android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:hint="Teléfono"
             android:inputType="phone"
             android:textStyle="bold"
-            android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textTelefono"/>
+            android:textColor="@color/black" />
 
 
     </LinearLayout>

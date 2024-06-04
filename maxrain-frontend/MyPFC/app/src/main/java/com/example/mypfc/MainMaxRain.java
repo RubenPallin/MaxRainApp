@@ -17,11 +17,20 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainMaxRain extends AppCompatActivity {
@@ -125,6 +134,43 @@ public class MainMaxRain extends AppCompatActivity {
 
     }
 
+    private void buscarArticulosEnBackend(String query, BusquedaFragment fragment) {
+
+        String url = "http://10.0.2.2:8000/buscar_articulos?query=" + query;
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+                Request.Method.GET,
+                url,
+                null,
+                response -> {
+                    List<ArticulosData> resultados = new ArrayList<>();
+                    try {
+                        for (int i = 0; i < response.length(); i++) {
+                            JSONObject articuloObject = response.getJSONObject(i);
+                            String codigoArticulo = articuloObject.getString("codigo_articulo");
+                            String nombre = articuloObject.getString("descripcion");
+                            double precio = articuloObject.getDouble("precio");
+                            String codigoFamilia = articuloObject.getString("familia");
+                            String codigoMarca = articuloObject.getString("marca");
+                            int imagen = R.drawable.imagen;
+
+                            resultados.add(new ArticulosData(codigoArticulo, nombre, imagen, codigoFamilia, codigoMarca, precio));
+                        }
+                        fragment.actualizarResultados(resultados);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(MainMaxRain.this, "Error al procesar los datos", Toast.LENGTH_SHORT).show();
+                    }
+                },
+                error -> {
+                    error.printStackTrace();
+                    Toast.makeText(MainMaxRain.this, "Error al obtener los artículos", Toast.LENGTH_SHORT).show();
+                }
+        );
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonArrayRequest);
+    }
+
     public void escanear() {
         ScanOptions options = new ScanOptions();
         options.setDesiredBarcodeFormats(ScanOptions.ALL_CODE_TYPES);
@@ -163,11 +209,4 @@ public class MainMaxRain extends AppCompatActivity {
         super.onDestroy();
     }
 
-    private void cerrarSesion() {
-        SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove(KEY_TOKEN); // Eliminar el token de autenticación
-        editor.remove(KEY_IS_LOGGED_IN); // Eliminar la marca de inicio de sesión
-        editor.apply();
-    }
 }

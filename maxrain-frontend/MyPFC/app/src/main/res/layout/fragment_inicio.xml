@@ -12,12 +12,25 @@
         android:id="@+id/recycler_view_inicio"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:padding="16dp"/>
+
+
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/aspersores2"/>
+        android:layout_height="120dp"
+        android:src="@drawable/aspersores2" />
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:src="@drawable/aspersores1"
+        />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="233dp"
+        android:src="@drawable/aspersores4" />
 
 </LinearLayout>
