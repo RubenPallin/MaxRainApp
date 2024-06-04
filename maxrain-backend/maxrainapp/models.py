@@ -86,3 +86,11 @@ class CarritoItem(models.Model):
     carrito = models.ForeignKey(Carrito, on_delete=models.CASCADE)
     articulo = models.ForeignKey(Articulo, on_delete=models.CASCADE)
     cantidad = models.PositiveIntegerField(default=1)
+
+
+class Favorito(models.Model):
+    user = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    articulo = models.ForeignKey(Articulo, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('user', 'articulo')

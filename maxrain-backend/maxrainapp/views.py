@@ -4,7 +4,7 @@ import bcrypt
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.http import Http404, JsonResponse
-from maxrainapp.models import Usuario, Familia, Marca, Articulo, UserSession, Carrito, CarritoItem
+from maxrainapp.models import Usuario, Familia, Marca, Articulo, UserSession, Carrito, CarritoItem, Favorito
 
 
 # Create your views here.
@@ -125,11 +125,12 @@ def get_articulos(request, codigo_familia):
 @csrf_exempt
 def dar_like(request, codigo_familia):
     try:
-        user_token = request.headers.get('user-token')
-        if not user_token:
+        token = request.headers.get('token')
+        
+        if not token:
             return JsonResponse({"error": "User token is required"}, status=400)
 
-        user_session = get_object_or_404(UserSession, token=user_token)
+        user_session = get_object_or_404(UserSession, token=token)
         articulo = get_object_or_404(Articulo, codigo_familia=codigo_familia)
 
         user_db = user_session.user
@@ -146,7 +147,7 @@ def dar_like(request, codigo_familia):
             return JsonResponse({"message": "The article has been unliked"}, status=200)
 
     except Articulo.DoesNotExist:
-        return JsonResponse({"error": "Article not found"}, status=404)
+        return JsonResponse({"error": "Articulo no encontrado"}, status=404)
 
     except UserSession.DoesNotExist:
         return JsonResponse({"error": "User session not found"}, status=404)
@@ -223,3 +224,77 @@ def carrito_item(request, codigo_articulo):
             return JsonResponse({"error": "Bad Request - El artículo no existe"}, status=400)
         except CarritoItem.DoesNotExist:
             return JsonResponse({"error": "Bad Request - El artículo no está en el carrito"}, status=400)
+        
+
+def usuario_datos(request):
+    if request.method == 'GET':
+        token = request.headers.get('token')
+        if not token:
+            return JsonResponse({'Error': 'Token is required'}, status=401)
+
+        if not UserSession.objects.filter(token=token).exists():
+            return JsonResponse({'error': 'User not authenticated.'}, status=401)
+
+        try:
+            user = UserSession.objects.get(token=token).user
+        except UserSession.DoesNotExist:
+            return JsonResponse({'Error': 'User not found or invalid'}, status=404)
+
+        data = {
+            'nombre': user.nombre,
+            'apellido': user.apellido,
+            'contraseña': user.contraseña,
+            'email': user.email,
+            'telefono': user.telefono
+        }
+
+        return JsonResponse(data, status=200)
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+    
+@csrf_exempt
+def get_favoritos(request):
+    token = request.headers.get('token')
+    if not token:
+        return JsonResponse({'Error': 'Token is required'}, status=401)
+
+    if not UserSession.objects.filter(token=token).exists():
+        return JsonResponse({"Error": "User not authenticated"}, status=401)
+
+    try:
+        user_session = UserSession.objects.get(token=token)
+        user = user_session.user
+    except UserSession.DoesNotExist:
+        return JsonResponse({'error': 'User session not found.'}, status=404) 
+
+    if request.method == 'GET':
+        favoritos = Favorito.objects.filter(user=user)
+        json_response = [favorito.articulo.to_json_articulos() for favorito in favoritos]
+        return JsonResponse(json_response, safe=False)
+
+    elif request.method == 'POST':
+        try:
+            body_json = json.loads(request.body.decode('utf-8'))
+            codigo_articulo = body_json.get('codigo_articulo')
+
+            if not codigo_articulo:
+                return JsonResponse({"error": "Bad Request - 'codigo_articulo' no está en el cuerpo de la petición"}, status=400)
+
+            try:
+                articulo = Articulo.objects.get(codigo_articulo=codigo_articulo)
+            except Articulo.DoesNotExist:
+                return JsonResponse({"error": "Bad Request - El artículo no existe"}, status=400)
+
+            favorito, created = Favorito.objects.get_or_create(user=user, articulo=articulo)
+            
+            if created:
+                return JsonResponse({"message": "Artículo añadido a favoritos"}, status=200)
+            else:
+                return JsonResponse({"message": "El artículo ya está en favoritos"}, status=200)
+
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Bad Request - Error al decodificar el JSON"}, status=400)
+        except KeyError:
+            return JsonResponse({"error": "Bad Request - 'codigo_articulo' no está en el cuerpo de la petición"}, status=400)
+
+    return JsonResponse({'error': 'Unsupported HTTP method'}, status=405)
