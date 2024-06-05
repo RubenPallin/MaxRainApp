@@ -29,7 +29,8 @@ urlpatterns = [
     path('articulos/<str:codigo_familia>/', views.get_articulos),
     path('like/<str:codigo_familia>/', views.dar_like),
     path('carrito/', views.carrito), 
-    path('carrito/<str:codigo_articulo>', views.carrito_item),
+    path('carrito/<str:codigo_articulo>/', views.carrito_item),
     path('usuario/', views.usuario_datos),
-    path('favoritos/', views.get_favoritos)
+    path('favoritos/', views.get_favoritos),
+    path('buscar_articulos/', views.buscar_articulos)
 ]

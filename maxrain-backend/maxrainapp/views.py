@@ -298,3 +298,15 @@ def get_favoritos(request):
             return JsonResponse({"error": "Bad Request - 'codigo_articulo' no está en el cuerpo de la petición"}, status=400)
 
     return JsonResponse({'error': 'Unsupported HTTP method'}, status=405)
+
+
+@csrf_exempt
+def buscar_articulos(request):
+    if request.method == 'GET':
+        query = request.GET.get('query', '')
+        if query:
+            articulos = Articulo.objects.filter(descripcion__icontains=query)
+            json_response = [articulo.to_json_articulos() for articulo in articulos]
+            return JsonResponse(json_response, safe=False)
+        return JsonResponse([], safe=False)
+    return JsonResponse({'error': 'Unsupported HTTP method'}, status=405)
