@@ -17,6 +17,24 @@
         android:usesCleartextTraffic="true"
         tools:remove="android:appComponentFactory"
         tools:targetApi="p">
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.mypfc.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+        <activity
+            android:name=".Facturas"
+            android:exported="false" />
+        <activity
+            android:name=".Pedidos"
+            android:exported="false" />
+        <activity
+            android:name=".Albaranes"
+            android:exported="false" />
         <activity
             android:name=".BusquedaFragment"
             android:exported="false" />

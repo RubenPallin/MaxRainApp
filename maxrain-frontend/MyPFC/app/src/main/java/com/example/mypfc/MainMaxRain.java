@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +17,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+import android.view.inputmethod.EditorInfo;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -37,6 +39,7 @@ public class MainMaxRain extends AppCompatActivity {
     com.example.mypfc.databinding.ActivityMainMaxRainBinding binding;
     private  Context main_context = this;
     private TextView textViewResult;
+    private EditText editTextBuscador;
     private ImageButton btnQr;
     private int lastSelectedItemId = R.id.nav_item1;
     private static final int CODIGO_PETICION_CAMARA = 1;
@@ -61,6 +64,8 @@ public class MainMaxRain extends AppCompatActivity {
         btnQr = findViewById(R.id.imageButton);
         binding = binding;
         BottomNavigationView bar = findViewById(R.id.bottomNavigation);
+        editTextBuscador = findViewById(R.id.editTextBuscador);
+        ImageButton imageButtonSearch = findViewById(R.id.imageButtonSearch);
         // Verificar si el usuario está registrado
         boolean loggedIn = isLoggedIn();
 
@@ -132,10 +137,36 @@ public class MainMaxRain extends AppCompatActivity {
 
         });
 
+
+        editTextBuscador.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                String query = editTextBuscador.getText().toString().trim();
+                if (!query.isEmpty()) {
+                    buscarArticulos(query);
+                } else {
+                    Toast.makeText(MainMaxRain.this, "Por favor, introduce un término de búsqueda", Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            }
+            return false;
+        });
+        // Agregar OnClickListener al ImageButton para iniciar la búsqueda
+        imageButtonSearch.setOnClickListener(v -> iniciarBusqueda());
+    }
+
+    private void buscarArticulos(String query) {
+        // Reemplazar el fragmento actual con el fragmento de búsqueda
+        BusquedaFragment busquedaFragment = new BusquedaFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, busquedaFragment)
+                .addToBackStack(null)
+                .commit();
+
+        // Llamada al backend para obtener los resultados de búsqueda
+        buscarArticulosEnBackend(query, busquedaFragment);
     }
 
     private void buscarArticulosEnBackend(String query, BusquedaFragment fragment) {
-
         String url = "http://10.0.2.2:8000/buscar_articulos?query=" + query;
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
@@ -153,8 +184,10 @@ public class MainMaxRain extends AppCompatActivity {
                             String codigoMarca = articuloObject.getString("marca");
                             int imagen = R.drawable.imagen;
 
+                            // Crear un objeto ArticulosData con los datos recibidos del backend
                             resultados.add(new ArticulosData(codigoArticulo, nombre, imagen, codigoFamilia, codigoMarca, precio));
                         }
+                        // Actualizar el fragmento de búsqueda con los nuevos resultados
                         fragment.actualizarResultados(resultados);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -170,6 +203,8 @@ public class MainMaxRain extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(jsonArrayRequest);
     }
+
+
 
     public void escanear() {
         ScanOptions options = new ScanOptions();
@@ -191,6 +226,15 @@ public class MainMaxRain extends AppCompatActivity {
         BottomNavigationView bar = findViewById(R.id.bottomNavigation);
         if (bar.getSelectedItemId() != lastSelectedItemId) {
             bar.setSelectedItemId(lastSelectedItemId);
+        }
+    }
+
+    private void iniciarBusqueda() {
+        String query = editTextBuscador.getText().toString().trim();
+        if (!query.isEmpty()) {
+            buscarArticulos(query);
+        } else {
+            Toast.makeText(MainMaxRain.this, "Por favor, introduce un término de búsqueda", Toast.LENGTH_SHORT).show();
         }
     }
 

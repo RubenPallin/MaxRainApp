@@ -35,9 +35,6 @@ public class BusquedaFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_view_busqueda);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-
         articulosList = new ArrayList<>();
 
         adapter = new ArticulosAdapter(articulosList, getActivity());

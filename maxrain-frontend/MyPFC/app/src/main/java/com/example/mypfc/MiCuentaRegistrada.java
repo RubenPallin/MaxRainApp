@@ -28,7 +28,7 @@ public class MiCuentaRegistrada extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_mi_cuenta_regristrada); // Inicializar los elementos de la interfaz
+        setContentView(R.layout.activity_mi_cuenta_regristrada);
         textCuentaRegistrada = findViewById(R.id.text_cuenta_registrada);
         Button btnPedidos = findViewById(R.id.boton_pedidos);
         Button btnAlbaranes = findViewById(R.id.boton_alabranes);
@@ -36,6 +36,26 @@ public class MiCuentaRegistrada extends AppCompatActivity {
         Button btnFavoritos = findViewById(R.id.boton_favoritos);
         Button btnSesion = findViewById(R.id.botonCerrarSesion);
         Button btnDatos = findViewById(R.id.boton_datos);
+        Button btnContacto = findViewById(R.id.boton_contacto2);
+
+
+        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+
+        // Recuperar los datos del usuario
+        String nombre = sharedPreferences.getString("nombre", null);
+        String apellido = sharedPreferences.getString("apellido", null);
+        String email = sharedPreferences.getString("email", null);
+        String telefono = sharedPreferences.getString("telefono", null);
+
+        // Asegurarse de que los datos no sean nulos antes de usarlos
+        if (nombre != null && apellido != null) {
+            // Crear un objeto UsuariosData si los datos no son nulos
+            UsuariosData usuario = new UsuariosData(nombre, apellido, null, email, telefono);
+            textCuentaRegistrada.setText(usuario.getNombre() + " " + usuario.getApellido());
+        } else {
+            // Si alguno de los datos es nulo, mostrar un mensaje de usuario desconocido
+            textCuentaRegistrada.setText("Usuario desconocido");
+        }
 
 
         Toolbar toolbarRegis = findViewById(R.id.toolbar_perfil_registrado);
@@ -55,21 +75,24 @@ public class MiCuentaRegistrada extends AppCompatActivity {
         btnPedidos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Lógica para el botón de Pedidos
+                Intent intent = new Intent(MiCuentaRegistrada.this, Pedidos.class);
+                startActivity(intent);
             }
         });
 
         btnAlbaranes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Lógica para el botón de Albaranes
+                Intent intent = new Intent(MiCuentaRegistrada.this, Albaranes.class);
+                startActivity(intent);
             }
         });
 
         btnFacturas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Lógica para el botón de Facturas
+                Intent intent = new Intent(MiCuentaRegistrada.this, Facturas.class);
+                startActivity(intent);
             }
         });
 
@@ -77,6 +100,14 @@ public class MiCuentaRegistrada extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MiCuentaRegistrada.this, Favoritos.class);
+                startActivity(intent);
+            }
+        });
+
+        btnContacto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MiCuentaRegistrada.this, Contacto.class);
                 startActivity(intent);
             }
         });
@@ -96,22 +127,6 @@ public class MiCuentaRegistrada extends AppCompatActivity {
             }
         });
 
-        // Obtener SharedPreferences
-        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
-
-        // Recuperar los datos del usuario
-        String nombre = sharedPreferences.getString("nombre", null);
-        String apellido = sharedPreferences.getString("apellido", null);
-        String email = sharedPreferences.getString("email", null);
-        String telefono = sharedPreferences.getString("telefono", null);
-
-        // Asegurarse de que los datos no sean nulos antes de usarlos
-        if (nombre != null && apellido != null) {
-            UsuariosData usuario = new UsuariosData(nombre, apellido, null, email, telefono);
-            textCuentaRegistrada.setText(usuario.getNombre() + " " + usuario.getApellido());
-        } else {
-            textCuentaRegistrada.setText("Usuario desconocido");
-        }
     }
     public void cerrarSesion(View view) {
 

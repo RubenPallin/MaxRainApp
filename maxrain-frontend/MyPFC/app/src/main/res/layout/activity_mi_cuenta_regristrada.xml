@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/maxcolor"
-        app:title="Subfamilias"
+        app:title="Mi Perfil"
         app:titleTextColor="@android:color/white"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -133,7 +133,7 @@
                 />
 
             <android.widget.Button
-                android:id="@+id/button_contacto2"
+                android:id="@+id/boton_contacto2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
@@ -148,7 +148,7 @@
 
 
             <android.widget.Button
-                android:id="@+id/button_ajustes2"
+                android:id="@+id/boton_ajustes2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"

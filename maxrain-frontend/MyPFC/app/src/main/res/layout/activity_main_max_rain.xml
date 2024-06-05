@@ -21,13 +21,25 @@
             android:id="@+id/editTextBuscador"
             android:layout_width="275dp"
             android:layout_height="65dp"
-            android:layout_marginRight="15dp"
-            android:padding="21dp"
+            android:padding="18dp"
             android:layout_gravity="center"
+            android:layout_marginLeft="15dp"
             android:drawableStart="@drawable/maxbus"
             android:hint="¿Qué estás buscando?"
             android:background="@drawable/custom_buscador"
             />
+
+        <ImageButton
+            android:id="@+id/imageButtonSearch"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="end"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="25dp"
+            android:background="@android:color/transparent"
+            android:padding="8dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/lupa" />
 
         <ImageButton
             android:id="@+id/imageButton"
@@ -36,7 +48,7 @@
             android:layout_marginTop="15dp"
             android:padding="2dp"
             android:background="@android:color/white"
-            android:layout_gravity="end"
+            android:layout_gravity="start"
             android:scaleType="centerInside"
             android:src="@drawable/qr" />
     </FrameLayout>
