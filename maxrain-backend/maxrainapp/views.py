@@ -30,7 +30,7 @@ def login_sesion(request):
     except Usuario.DoesNotExist:
         return JsonResponse({"error": "User not in database"}, status=404)
 
-    if bcrypt.checkpw(json_contraseña.encode("utf8"), db_user.contraseña.encode("utf8")):
+    if json_contraseña == db_user.contraseña:
         random_token = secrets.token_hex(10)
         session = UserSession(user=db_user, token=random_token)
         session.save()
@@ -44,7 +44,7 @@ def registro(request):
         return JsonResponse({"error": "Unsupported HTTP method"}, status=405)
 
     body_json = json.loads(request.body)
-    required_params = ["nombre", "apellido", "email", "contraseña"]
+    required_params = ["nombre", "apellido", "email", "contraseña", "telefono"]
 
     if not all(param in body_json for param in required_params):
         return JsonResponse({"error": "Missing parameter in body request"}, status=400)
@@ -53,6 +53,7 @@ def registro(request):
     json_apellido = body_json["apellido"]
     json_email = body_json["email"]
     json_contraseña = body_json["contraseña"]
+    json_telefono = body_json["telefono"]
 
     if Usuario.objects.filter(nombre=json_nombre).exists():
         return JsonResponse({"error": "Username already exist"}, status=400)
@@ -63,12 +64,8 @@ def registro(request):
     if Usuario.objects.filter(email=json_email).exists():
         return JsonResponse({"error": "User already registered."}, status=401)
 
-    salted_and_hashed_pass = bcrypt.hashpw(
-        json_contraseña.encode("utf8"), bcrypt.gensalt()
-    ).decode("utf8")
-
     user_object = Usuario(
-        nombre=json_nombre, apellido=json_apellido, email=json_email, contraseña=salted_and_hashed_pass
+        nombre=json_nombre, apellido=json_apellido, email=json_email, contraseña=json_contraseña, telefono=json_telefono
     )
     user_object.save()
 
@@ -224,6 +221,8 @@ def carrito_item(request, codigo_articulo):
             return JsonResponse({"error": "Bad Request - El artículo no existe"}, status=400)
         except CarritoItem.DoesNotExist:
             return JsonResponse({"error": "Bad Request - El artículo no está en el carrito"}, status=400)
+    else:
+        return JsonResponse({"error": "Método no permitido"}, status=405)
         
 
 def usuario_datos(request):
@@ -310,3 +309,23 @@ def buscar_articulos(request):
             return JsonResponse(json_response, safe=False)
         return JsonResponse([], safe=False)
     return JsonResponse({'error': 'Unsupported HTTP method'}, status=405)
+
+
+@csrf_exempt
+def eliminar_cuenta(request):
+
+    if request.method != 'DELETE':
+        return JsonResponse({'Error': 'Método no permitido'})
+    
+    try:
+        token = request.headers.get('token')
+        UserSession.objects.get(token=token)
+    except UserSession.DoesNotExist:
+        return JsonResponse({'error': 'Usuario no encontrado.'}, status='401')
+    
+    try:
+        UserSession.objects.get(token = token).user.delete
+    except:
+        return JsonResponse({'error': 'Usuario no encontrado.'}, status='401')
+    
+    return JsonResponse({'detail': 'Usuario eliminado exitosamente.'}, status='200')
