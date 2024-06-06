@@ -1,10 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Facturas">
+    android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_facturas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/maxcolor"
+        >
+        <TextView
+            android:id="@+id/text_toolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Facturas"
+            android:textColor="@android:color/white"
+            android:textSize="25dp"
+            android:layout_gravity="start"/>
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:id="@+id/fecha1Texto"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:hint="Fecha 1"
+            android:textAlignment="center"
+            />
+
+        <TextView
+            android:id="@+id/fecha2Texto"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:hint="Fecha 2"
+            android:textAlignment="center"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/maxcolor"
+        >
+
+        <TextView
+            android:id="@+id/fechaTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:text="Fecha"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/facturasTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:text="Num. Factura"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/netoTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:text="Neto"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/impuestosTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:text="Impuestos"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/totalTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Total"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/fechaValueTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/numFacturaValueTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:textSize="16sp" />
+
+
+        <TextView
+            android:id="@+id/netoValueTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/impuestosValueTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:textSize="16sp" />
+        <TextView
+            android:id="@+id/totalValueTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -7,6 +7,8 @@
     android:layout_height="match_parent"
     tools:context=".Favoritos">
 
+
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_favoritos"
         android:layout_width="match_parent"
@@ -18,12 +20,23 @@
         app:layout_constraintLeft_toLeftOf="parent"
         />
 
+    <ImageView
+        android:id="@+id/corazon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:src="@drawable/corazon"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_favoritos"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_favoritos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_favoritos"/>
+        app:layout_constraintTop_toBottomOf="@+id/corazon"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

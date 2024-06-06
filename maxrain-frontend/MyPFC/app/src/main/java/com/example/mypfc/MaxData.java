@@ -80,5 +80,4 @@ public class MaxData {
         }
     }
 
-    // Otros métodos getter y setter
 }

@@ -36,11 +36,10 @@
 
             <TextView
                 android:id="@+id/text_cuenta_registrada"
-                android:layout_width="wrap_content"
+                android:layout_width="347dp"
                 android:layout_height="wrap_content"
-                android:textSize="30dp"
                 android:layout_marginTop="20dp"
-                />
+                android:textSize="30dp" />
 
             <GridLayout
                 android:layout_width="match_parent"
@@ -49,7 +48,7 @@
                 android:columnCount="2"
                 android:rowCount="2">
 
-                <Button
+                <android.widget.Button
                     android:id="@+id/boton_pedidos"
                     android:layout_width="0dp"
                     android:layout_height="110dp"
@@ -58,10 +57,11 @@
                     android:layout_rowWeight="1"
                     android:background="@drawable/another_custom_buttom"
                     android:text="Pedidos"
-                    android:textColor="@color/blue2"
-                    android:textSize="16dp" />
+                    android:textColor="@color/black"
+                    android:textSize="16dp"
+                    style="@style/ButtonStyle.Dark"/>
 
-                <Button
+                <android.widget.Button
                     android:id="@+id/boton_alabranes"
                     android:layout_width="0dp"
                     android:layout_height="110dp"
@@ -70,10 +70,11 @@
                     android:layout_rowWeight="1"
                     android:background="@drawable/another_custom_buttom"
                     android:text="Albaranes"
-                    android:textColor="@color/blue2"
-                    android:textSize="16dp" />
+                    android:textColor="@color/black"
+                    android:textSize="16dp"
+                    style="@style/ButtonStyle.Dark"/>
 
-                <Button
+                <android.widget.Button
                     android:id="@+id/boton_facturas"
                     android:layout_width="0dp"
                     android:layout_height="110dp"
@@ -82,10 +83,11 @@
                     android:layout_rowWeight="1"
                     android:background="@drawable/another_custom_buttom"
                     android:text="Facturas"
-                    android:textColor="@color/blue2"
-                    android:textSize="16dp" />
+                    android:textColor="@color/black"
+                    android:textSize="16dp"
+                    style="@style/ButtonStyle.Dark"/>
 
-                <Button
+                <android.widget.Button
                     android:id="@+id/boton_favoritos"
                     android:layout_width="0dp"
                     android:layout_height="110dp"
@@ -94,8 +96,9 @@
                     android:layout_rowWeight="1"
                     android:background="@drawable/another_custom_buttom"
                     android:text="Favoritos"
-                    android:textColor="@color/blue2"
-                    android:textSize="16dp" />
+                    android:textColor="@color/black"
+                    android:textSize="16dp"
+                    style="@style/ButtonStyle.Dark"/>
             </GridLayout>
 
             <TextView
@@ -120,6 +123,7 @@
                 android:textAlignment="viewStart"
                 android:text="Mis Datos"
                 android:drawableRight="@drawable/flecha"
+                style="@style/ButtonStyle.Dark"
                 />
 
             <TextView
@@ -144,7 +148,7 @@
                 android:textAlignment="viewStart"
                 android:text="Contacto"
                 android:drawableRight="@drawable/flecha"
-                />
+                style="@style/ButtonStyle.Dark"/>
 
 
             <android.widget.Button
@@ -159,17 +163,20 @@
                 android:textAlignment="viewStart"
                 android:text="Ajustes"
                 android:drawableRight="@drawable/flecha"
+                style="@style/ButtonStyle.Dark"
                 />
 
-            <Button
+            <android.widget.Button
                 android:id="@+id/botonCerrarSesion"
                 android:layout_width="355dp"
                 android:layout_height="wrap_content"
                 android:text="Cerrar Sesión"
                 android:onClick="cerrarSesion"
+                android:textColor="@color/red"
                 android:layout_gravity="end"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/custom_cerrar_sesion"
+                android:drawableRight="@drawable/salir"
                 />
 
         </LinearLayout>

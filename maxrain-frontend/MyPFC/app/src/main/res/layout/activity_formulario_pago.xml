@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FormularioPago"
+    android:padding="15dp">
+
+    <ImageView
+        android:id="@+id/imagen_tarjeta_credito"
+        android:layout_width="350dp"
+        android:layout_height="200dp"
+        android:src="@drawable/tarjeta_credito"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:id="@+id/texto_tarjeta_credito"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TARJETA DE CRÉDITO"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/imagen_tarjeta_credito"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="20dp"/>
+
+    <EditText
+        android:id="@+id/numero_tarjeta_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="1234 5678 9012 3456"
+        android:inputType="number"
+        app:layout_constraintTop_toBottomOf="@id/texto_tarjeta_credito"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"/>
+
+    <TextView
+        android:id="@+id/texto_nombre_titular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NOMBRE DEL TITULAR"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/numero_tarjeta_edit_text"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <EditText
+        android:id="@+id/nombre_completo_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Nombre Completo"
+        android:inputType="text"
+        app:layout_constraintTop_toBottomOf="@id/texto_nombre_titular"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"/>
+
+    <TextView
+        android:id="@+id/texto_valido_hasta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="VÁLIDO HASTA"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/nombre_completo_edit_text"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <EditText
+        android:id="@+id/mm_aa_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="MM/AA"
+        android:inputType="number"
+        app:layout_constraintTop_toBottomOf="@id/texto_valido_hasta"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"/>
+
+    <LinearLayout
+        android:id="@+id/layout_cvc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/mm_aa_edit_text"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CVC"
+            android:layout_marginEnd="10dp"/>
+
+        <EditText
+            android:id="@+id/cvc_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="CVC"
+            android:inputType="number"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/boton_pagar_ahora"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="PAGAR AHORA"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/red"
+        app:layout_constraintTop_toBottomOf="@id/layout_cvc"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

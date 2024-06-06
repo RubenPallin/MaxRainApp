@@ -7,16 +7,28 @@
     android:layout_height="match_parent"
     tools:context=".Login">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/maxcolor"
+        app:title="Login"
+        app:titleTextColor="@android:color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+
+
     <TextView
         android:id="@+id/mainText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Accede a tú cuenta"
         android:textSize="20dp"
-        android:layout_marginTop="130dp"
+        android:layout_marginTop="80dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_login"
         />
 
 

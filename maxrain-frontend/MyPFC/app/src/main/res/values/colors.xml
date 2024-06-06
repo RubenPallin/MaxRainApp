@@ -9,4 +9,9 @@
     <color name="grey2">#7B8A9C</color>
     <color name="maxcolor">#2B3C4A</color>
     <color name="red">#DF0909</color>
+    <color name="colorPrimaryDark">#BB86FC</color>
+    <color name="colorPrimaryVariantDark">#3700B3</color>
+    <color name="colorSecondaryDark">#03DAC6</color>
+    <color name="colorSecondaryVariantDark">#018786</color>
+    <color name="gray">#B0B0B0</color>
 </resources>

@@ -17,6 +17,13 @@
         android:usesCleartextTraffic="true"
         tools:remove="android:appComponentFactory"
         tools:targetApi="p">
+        <activity
+            android:name=".FormularioPago"
+            android:exported="false" />
+        <activity
+            android:name=".AjustesTema"
+            android:exported="false" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.mypfc.provider"
@@ -26,6 +33,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
         <activity
             android:name=".Facturas"
             android:exported="false" />

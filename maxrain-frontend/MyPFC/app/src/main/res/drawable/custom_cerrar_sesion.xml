@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
-    <solid android:color="@color/red"/>
-    <corners android:radius="0dp"/>
-</shape>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Estado presionado -->
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/transparent"/> <!-- Fondo transparente -->
+            <stroke android:width="2dp" android:color="#FF0000"/> <!-- Bordes rojos -->
+            <corners android:radius="8dp"/> <!-- Ajusta el radio de los bordes según sea necesario -->
+        </shape>
+        <color android:color="#FF0000"/> <!-- Color del texto cuando se presiona -->
+    </item>
+    <!-- Estado enfocado -->
+    <item android:state_focused="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/transparent"/> <!-- Fondo transparente -->
+            <stroke android:width="2dp" android:color="#FF0000"/> <!-- Bordes rojos -->
+            <corners android:radius="8dp"/> <!-- Ajusta el radio de los bordes según sea necesario -->
+        </shape>
+        <color android:color="#FF0000"/> <!-- Color del texto cuando está enfocado -->
+    </item>
+    <!-- Estado por defecto -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/transparent"/> <!-- Fondo transparente -->
+            <stroke android:width="2dp" android:color="#FF0000"/> <!-- Bordes rojos -->
+            <corners android:radius="8dp"/> <!-- Ajusta el radio de los bordes según sea necesario -->
+        </shape>
+        <color android:color="#FF0000"/> <!-- Color del texto por defecto -->
+    </item>
+</selector>

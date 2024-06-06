@@ -65,41 +65,65 @@
             android:textColor="@color/white"
             android:textStyle="bold"
             android:gravity="center"
-            android:text="Pedidos"
+            android:text="Num. Pedido"
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/fechaNum2TextView"
+            android:id="@+id/fechaTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:gravity="center"
-            android:text="Fecha Num."
+            android:text="Fecha"
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/transportista2TextView"
+            android:id="@+id/entregaTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Transportista"
+            android:text="Entrega Estimada"
             android:textSize="18sp" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
         <TextView
-            android:id="@+id/expedicion2TextView"
+            android:id="@+id/numValueTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="@color/white"
-            android:textStyle="bold"
+            android:textColor="@android:color/black"
             android:gravity="center"
-            android:text="N. expedición"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/fechaValueTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/entregaValueTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:textSize="16sp" />
     </LinearLayout>
 
 </LinearLayout>

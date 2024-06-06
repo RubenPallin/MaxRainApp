@@ -103,6 +103,8 @@ public class SubFamilias extends AppCompatActivity {
                                     MaxData subfamilia = new MaxData(jsonObject);
                                     subfamiliasList.add(subfamilia);
                                 }
+
+
                                 adapter = new SubFamiliasAdapter(subfamiliasList, SubFamilias.this);
                                 recyclerView.setAdapter(adapter);
                                 adapter.notifyDataSetChanged();

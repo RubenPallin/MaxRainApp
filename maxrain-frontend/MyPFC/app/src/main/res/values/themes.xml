@@ -3,7 +3,7 @@
 
     <style name="Base.Theme.MyPFC" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <item name="colorPrimary">@color/maxcolor</item> <!-- Cambia "your_color_primary" por tu color primario -->
+        <item name="colorPrimary">@color/maxcolor</item>
         <item name="progressBarPadding">@color/blue</item>
 
         <item name="android:statusBarColor">@color/blue</item>

@@ -16,6 +16,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.FragmentManager;
 import android.view.inputmethod.EditorInfo;
 
@@ -46,6 +47,7 @@ public class MainMaxRain extends AppCompatActivity {
     private static final String PREFS_NAME = "MyAppPrefs";
     private static final String KEY_TOKEN = "token";
     private static final String KEY_IS_LOGGED_IN = "isLoggedIn";
+    private static final String PREF_DARK_MODE = "pref_dark_mode";
 
     private final ActivityResultLauncher<ScanOptions> barcodeLauncher = registerForActivityResult(new ScanContract(), result -> {
         if (result.getContents() == null) {
@@ -70,14 +72,6 @@ public class MainMaxRain extends AppCompatActivity {
         boolean loggedIn = isLoggedIn();
 
 
-        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-
-        // Ajustar la interfaz o mostrar un mensaje basado en el estado de loggedIn
-        if (loggedIn) {
-            Toast.makeText(this, "Usuario está registrado", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Usuario no está registrado", Toast.LENGTH_SHORT).show();
-        }
         getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
         bar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -127,6 +121,17 @@ public class MainMaxRain extends AppCompatActivity {
             lastSelectedItemId = savedInstanceState.getInt("LAST_SELECTED_ITEM_ID", R.id.nav_item1);
         }
         bar.setSelectedItemId(lastSelectedItemId); // Establecer el ítem seleccionado al iniciar
+
+        // Obtener el estado del modo oscuro desde las preferencias compartidas
+        SharedPreferences preferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        boolean isDarkMode = preferences.getBoolean(PREF_DARK_MODE, false);
+
+        // Cambiar el tema de la aplicación según el estado del modo oscuro
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
 
 
         btnQr.setOnClickListener(new View.OnClickListener() {

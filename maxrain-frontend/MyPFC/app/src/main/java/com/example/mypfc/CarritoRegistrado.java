@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -53,6 +54,9 @@ public class CarritoRegistrado extends AppCompatActivity {
         setContentView(R.layout.activity_carrito_registrado);
         Button btnContinuar = findViewById(R.id.boton_continuar);
 
+        // Inicializar SharedPreferences
+        sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+
         // Inicializar la lista de artículos del carrito
         articulosCarrito = new ArrayList<>();
 
@@ -71,13 +75,15 @@ public class CarritoRegistrado extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.x);
 
+        String codigoArticulo = getIntent().getStringExtra("codigo_articulo");
 
         btnContinuar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean isLoggedIn = sharedPreferences.getBoolean(KEY_IS_LOGGED_IN, false);
                 if (isLoggedIn) {
-                    Toast.makeText(main_context, "Producto comprado exitosamente", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(main_context, FormularioPago.class);
+                    startActivity(intent);
                 } else {
                     Intent intent = new Intent(main_context, Login.class);
                     startActivity(intent);
@@ -155,53 +161,6 @@ public class CarritoRegistrado extends AppCompatActivity {
         requestQueue.add(jsonObjectRequest);
     }
 
-
-
-    // Método para eliminar un artículo del carrito
-    private void eliminarArticuloDelCarrito(String idArticulo) {
-        // URL del servidor para eliminar el artículo del carrito (suponiendo que exista un endpoint /carrito/{idArticulo})
-        String url = "http://tu-backend.com/api/carrito/" + idArticulo;
-
-        // Crear la solicitud DELETE
-        StringRequest stringRequest = new StringRequest(
-                Request.Method.DELETE,
-                url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // Manejar la respuesta (puede ser vacía si la eliminación fue exitosa)
-                        // Actualizar la interfaz de usuario si es necesario
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        Toast.makeText(CarritoRegistrado.this, "Error al eliminar el artículo del carrito", Toast.LENGTH_SHORT).show();
-                    }
-                }
-        );
-
-        // Obtener la instancia de Volley y agregar la solicitud a la cola de solicitudes
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
-    }
-
-    private ArticulosData crearArticuloDesdeJSON(JSONObject jsonObject) {
-        try {
-            String codigoArticulo = jsonObject.getString("codigo_articulo");
-            String nombre = jsonObject.getString("nombre");
-            int imageURL = jsonObject.getInt("imagen_url");
-            String codigoFamilia = jsonObject.getString("familia");
-            String codigoMarca = jsonObject.getString("marca");
-            double precio = jsonObject.getDouble("precio");
-
-            return new ArticulosData(codigoArticulo, nombre, imageURL, codigoFamilia, codigoMarca, precio);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {

@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+
+    android:background="@android:color/white">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_contacto"
@@ -15,79 +16,91 @@
         app:titleTextColor="@android:color/white"
         android:layout_alignParentTop="true"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-    <TextView
-        android:id="@+id/text_contacto"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/container_contact_info"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Contacto"
-        android:textSize="35sp"
-        android:layout_marginTop="30dp"
+        android:orientation="vertical"
+        android:background="@color/maxcolor"
+        android:padding="16dp"
+        android:gravity="center"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_contacto"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.5"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="22dp">
 
-    <TextView
-        android:id="@+id/text_direccion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="C/ El Nogal, 1 - Polígono industrial Los Nogales"
-        android:textSize="19dp"
-        android:layout_marginTop="30dp"
-        app:layout_constraintTop_toBottomOf="@+id/text_contacto"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+        <TextView
+            android:id="@+id/text_contacto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Contacto"
+            android:textSize="35sp"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="16dp"
+            />
 
-    <TextView
-        android:id="@+id/text_municipio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="28110 Algete, Madrid."
-        android:textSize="20sp"
-        android:layout_marginTop="15dp"
-        app:layout_constraintTop_toBottomOf="@+id/text_direccion"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+        <TextView
+            android:id="@+id/text_direccion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="C/ El Nogal, 1 - Polígono industrial Los Nogales"
+            android:textSize="19sp"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="8dp"
+            />
 
-    <TextView
-        android:id="@+id/text_telefono"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tel. (+34) 91 629 34 88"
-        android:textSize="20sp"
-        android:layout_marginTop="15dp"
-        app:layout_constraintTop_toBottomOf="@+id/text_municipio"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+        <TextView
+            android:id="@+id/text_municipio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="28110 Algete, Madrid."
+            android:textSize="20sp"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="8dp"
+            />
 
-    <TextView
-        android:id="@+id/text_email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="info@maxrain.es"
-        android:textSize="20sp"
-        android:layout_marginTop="15dp"
-        app:layout_constraintTop_toBottomOf="@+id/text_telefono"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+        <TextView
+            android:id="@+id/text_telefono"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tel. (+34) 91 629 34 88"
+            android:textSize="20sp"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="8dp"
+            />
 
-    <TextView
-        android:id="@+id/text_web"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="www.maxrain.es"
-        android:textSize="20sp"
-        android:layout_marginTop="15dp"
-        app:layout_constraintTop_toBottomOf="@+id/text_email"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        <TextView
+            android:id="@+id/text_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="info@maxrain.es"
+            android:textSize="20sp"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="8dp"
+            />
 
-        />
+        <TextView
+            android:id="@+id/text_web"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="www.maxrain.es"
+            android:textSize="20sp"
+            android:textColor="@android:color/white"
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            android:src="@drawable/loguito"
+/>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,13 +17,29 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import android.content.SharedPreferences;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
 public class MiCuentaRegistrada extends AppCompatActivity {
     private TextView textCuentaRegistrada;
     private List<UsuariosData> usuariosDataList;
+    private static final String PREFS_NAME = "MyAppPrefs";
+    private static final String KEY_CART_ITEMS = "CartItems";
+    static final String KEY_IS_LOGGED_IN = "isLoggedIn";
+    static final String KEY_TOKEN = "token";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,25 +53,7 @@ public class MiCuentaRegistrada extends AppCompatActivity {
         Button btnSesion = findViewById(R.id.botonCerrarSesion);
         Button btnDatos = findViewById(R.id.boton_datos);
         Button btnContacto = findViewById(R.id.boton_contacto2);
-
-
-        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
-
-        // Recuperar los datos del usuario
-        String nombre = sharedPreferences.getString("nombre", null);
-        String apellido = sharedPreferences.getString("apellido", null);
-        String email = sharedPreferences.getString("email", null);
-        String telefono = sharedPreferences.getString("telefono", null);
-
-        // Asegurarse de que los datos no sean nulos antes de usarlos
-        if (nombre != null && apellido != null) {
-            // Crear un objeto UsuariosData si los datos no son nulos
-            UsuariosData usuario = new UsuariosData(nombre, apellido, null, email, telefono);
-            textCuentaRegistrada.setText(usuario.getNombre() + " " + usuario.getApellido());
-        } else {
-            // Si alguno de los datos es nulo, mostrar un mensaje de usuario desconocido
-            textCuentaRegistrada.setText("Usuario desconocido");
-        }
+        Button btnAjustes = findViewById(R.id.boton_ajustes2);
 
 
         Toolbar toolbarRegis = findViewById(R.id.toolbar_perfil_registrado);
@@ -127,6 +125,16 @@ public class MiCuentaRegistrada extends AppCompatActivity {
             }
         });
 
+        btnAjustes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MiCuentaRegistrada.this, AjustesTema.class);
+                startActivity(intent);
+            }
+        });
+
+        obtenerNombreyApellido();
+
     }
     public void cerrarSesion(View view) {
 
@@ -139,6 +147,62 @@ public class MiCuentaRegistrada extends AppCompatActivity {
         Intent intent = new Intent(this, MiCuenta.class);
         startActivity(intent);
         finish(); // Opcional: cierra la actividad actual
+    }
+
+    private void obtenerNombreyApellido() {
+        SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        String sessionToken = sharedPreferences.getString(KEY_TOKEN, "");
+
+        if (sessionToken == null || sessionToken.isEmpty()) {
+            Toast.makeText(this, "Token no encontrado", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String url= "http://10.0.2.2:8000/usuario/";
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            String nombre = response.getString("nombre");
+                            String apellido = response.getString("apellido");
+                            mostrarNombreApellido(nombre, apellido);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if (error.networkResponse == null) {
+                            Toast.makeText(MiCuentaRegistrada.this, "No se ha establecido la conexión", Toast.LENGTH_SHORT).show();
+                        } else {
+                            int serverCode = error.networkResponse.statusCode;
+                            Toast.makeText(MiCuentaRegistrada.this, "Estado del servidor: " + serverCode, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+        ) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("token", sessionToken);
+                return headers;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
+    }
+
+    private void mostrarNombreApellido(String nombre, String apellido) {
+        String nombreCompleto = nombre + " " + apellido;
+        textCuentaRegistrada.setText(nombreCompleto);
     }
 
     @Override

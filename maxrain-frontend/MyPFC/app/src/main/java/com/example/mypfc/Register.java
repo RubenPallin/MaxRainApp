@@ -115,6 +115,7 @@ public class Register extends AppCompatActivity {
             body.put("nombre", nombre);
             body.put("apellido", apellido);
             body.put("email", email);
+            body.put("telefono", telefono);
             body.put("contraseña", contrasena);
         } catch (JSONException e) {
             throw new RuntimeException(e);
