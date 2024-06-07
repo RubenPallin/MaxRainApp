@@ -34,6 +34,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Login extends AppCompatActivity {
+    // Declaración de variables
     private EditText editTextEmail, editTextContraseña;
     //private FirebaseAuth mAuth;
     private TextView textView;
@@ -46,10 +47,13 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Habilitar el modo EdgeToEdge
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
 
+        // Inicializar la cola de solicitudes de Volley
         queueForRequests = Volley.newRequestQueue(this);
+        // Asociar vistas con variables
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextContraseña = findViewById(R.id.editTextContraseña);
         textView = findViewById(R.id.textEnlace);
@@ -58,35 +62,38 @@ public class Login extends AppCompatActivity {
 
         Button btnLogin = findViewById(R.id.sign_in_login_button);
 
+        // Configurar el listener del botón de inicio de sesión
         btnLogin.setOnClickListener(v -> iniciarSesion());
 
-        // Show the button to go back
+        // Mostrar el botón de retroceso
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
 
-
+        // Subrayar y configurar el texto clicable para registrar
         textView.setPaintFlags(textView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Navegar a la pantalla de registro
                 Intent intent = new Intent(Login.this, Register.class);
                 startActivity(intent);
             }
         });
 
+        // Configurar el listener del botón de inicio de sesión (otra vez para asegurar el comportamiento deseado)
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
                 iniciarSesion();
-
             }
         });
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        // Manejar la selección de elementos del menú
         if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
@@ -94,8 +101,9 @@ public class Login extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // Método para iniciar sesión
     private void iniciarSesion(){
-
+        // Crear el cuerpo de la solicitud con los datos de entrada del usuario
         JSONObject requestBody = new JSONObject();
         try {
             requestBody.put("email", editTextEmail.getText().toString());
@@ -104,6 +112,7 @@ public class Login extends AppCompatActivity {
             throw new RuntimeException(e);
         }
 
+        // Crear la solicitud de inicio de sesión
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.POST,
                 "http://10.0.2.2:8000/sesion/",
@@ -111,17 +120,20 @@ public class Login extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        String receivedToken;
+                        // Ocultar el ProgressBar
                         progressBar.setVisibility(View.INVISIBLE);
+                        String receivedToken;
                         try {
+                            // Obtener el token de la respuesta
                             receivedToken = response.getString("token");
-
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
                         }
 
+                        // Guardar el token y marcar al usuario como logueado
                         guardarToken(receivedToken);
 
+                        // Navegar a la pantalla principal
                         Intent intent = new Intent(Login.this, MainMaxRain.class);
                         startActivity(intent);
                         finish();
@@ -130,6 +142,7 @@ public class Login extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        // Ocultar el ProgressBar y manejar errores
                         progressBar.setVisibility(View.INVISIBLE);
                         if (error.networkResponse != null) {
                             int statusCode = error.networkResponse.statusCode;
@@ -141,6 +154,7 @@ public class Login extends AppCompatActivity {
                 }
         );
 
+        // Agregar la solicitud a la cola
         queueForRequests.add(request);
     }
 
