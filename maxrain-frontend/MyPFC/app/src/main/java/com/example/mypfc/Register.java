@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
 
 public class Register extends AppCompatActivity {
 
+    // Declaración de variables
     private Button btnRegister;
     public String email, nombre, rcontrasena, apellido, contrasena, telefono;
     public EditText editTextTelefono, editTextApellido, editTextEmail, editTextUsername, editTextContrasena, editTextrContrasena;
@@ -50,19 +51,22 @@ public class Register extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Habilitar el modo EdgeToEdge
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_register);
+        // Inicializar vistas y elementos del layout
         btnRegister = findViewById(R.id.button_register);
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.INVISIBLE);
 
+        // Configurar la barra de herramientas
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // Configurar ActionBar y flecha de retroceso
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            // Cambiar el color de la flecha de retroceso
             final Drawable upArrow = ContextCompat.getDrawable(this, com.google.android.material.R.drawable.abc_ic_ab_back_material);
             if (upArrow != null) {
                 upArrow.setColorFilter(ContextCompat.getColor(this, R.color.white), android.graphics.PorterDuff.Mode.SRC_ATOP);
@@ -70,8 +74,10 @@ public class Register extends AppCompatActivity {
             }
         }
 
+        // Inicializar la cola de solicitudes de Volley
         queue = Volley.newRequestQueue(context);
 
+        // Asociar vistas con variables
         editTextTelefono = findViewById(R.id.sign_up_edittext_telefono);
         editTextApellido = findViewById(R.id.sign_up_edittext_apellidos);
         editTextUsername = findViewById(R.id.sign_up_edittext_username);
@@ -79,11 +85,11 @@ public class Register extends AppCompatActivity {
         editTextContrasena = findViewById(R.id.sign_up_edittext_contrasena);
         editTextrContrasena = findViewById(R.id.sign_up_edittext_repetir_contrasena);
 
+        // Configurar el listener del botón de registro
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
+                // Obtener y validar datos
                 nombre = editTextUsername.getText().toString().trim();
                 apellido = editTextApellido.getText().toString().trim();
                 email = editTextEmail.getText().toString().trim();
@@ -92,24 +98,26 @@ public class Register extends AppCompatActivity {
                 rcontrasena = editTextrContrasena.getText().toString().trim();
 
                 if (validacionesDatos(editTextUsername, editTextEmail, editTextTelefono, editTextContrasena, editTextrContrasena)) {
+                    // Enviar la solicitud de registro
                     sendPostRegisterRequest();
                 }
-
             }
         });
-
-
     }
+
+    // Método para validar el formato del correo electrónico
     private boolean isValidEmail(String email) {
         return Pattern.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$", email);
     }
 
+    // Método para validar el formato del número de teléfono
     private boolean isValidPhone(String telefono) {
         return Pattern.matches("^\\+?\\d{8,10}$", telefono);
     }
 
+    // Método para enviar la solicitud de registro
     private void sendPostRegisterRequest() {
-        // Create a body to send on the request
+        // Crear el cuerpo de la solicitud
         JSONObject body = new JSONObject();
         try {
             body.put("nombre", nombre);
@@ -121,7 +129,7 @@ public class Register extends AppCompatActivity {
             throw new RuntimeException(e);
         }
 
-        // Create the request
+        // Crear la solicitud
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.POST,
                 "http://10.0.2.2:8000/registro/",
@@ -129,12 +137,12 @@ public class Register extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        // If the response is 200 ok, send the next request to log in on the app
+                        // Si la respuesta es exitosa, enviar solicitud de inicio de sesión
                         sendLogRequest(email, contrasena);
                     }
                 },
                 new Response.ErrorListener() {
-                    // Otherwise, if the response is bad, handle the error
+                    // Manejar errores en la solicitud
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         if (error.networkResponse == null) {
@@ -152,10 +160,11 @@ public class Register extends AppCompatActivity {
                     }
                 }
         );
+        // Agregar la solicitud a la cola
         queue.add(request);
     }
 
-    // Function to send the log request
+    // Método para enviar la solicitud de inicio de sesión
     private void sendLogRequest(String email, String contrasena) {
         JSONObject body = new JSONObject();
         try {
@@ -180,17 +189,13 @@ public class Register extends AppCompatActivity {
                             throw new RuntimeException(e);
                         }
 
-                        // Obtén una referencia a SharedPreferences
+                        // Guardar el token de sesión en SharedPreferences
                         SharedPreferences sharedPreferences = getSharedPreferences("MiSharedPreferences", Context.MODE_PRIVATE);
-                        // Crea un editor de SharedPreferences para realizar cambios
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-
-                        // Almacena el token de sesión
                         editor.putString("token", receivedToken);
-                        // Guarda los cambios
                         editor.apply();
 
-                        // Navega a la pantalla de "Mi cuenta"
+                        // Navegar a la pantalla principal
                         Intent intent = new Intent(Register.this, MainMaxRain.class);
                         startActivity(intent);
                         finishAffinity();
@@ -217,6 +222,7 @@ public class Register extends AppCompatActivity {
         this.queue.add(request);
     }
 
+    // Método para validar los datos de entrada
     private boolean validacionesDatos(EditText editTextUsername, EditText editTextEmail, EditText editTextTelefono, EditText editTextContraseña, EditText editTextrContraseña) {
         if (nombre.isEmpty()) {
             editTextUsername.setError("El nombre de usuario es obligatorio");
@@ -247,24 +253,21 @@ public class Register extends AppCompatActivity {
             editTextTelefono.requestFocus();
             return false;
         }
+
         if (rcontrasena.equals("") || rcontrasena.equals("")) {
             Toast.makeText(context, "Introduce todos los datos", Toast.LENGTH_SHORT).show();
             return false;
-        }
-
-        else if (!contrasena.equals(rcontrasena)) {
-
+        } else if (!contrasena.equals(rcontrasena)) {
             editTextContrasena.setText("");
-            editTextrContrasena.setText("");
+            editTextrContraseña.setText("");
             Toast.makeText(context, "Las contraseñas han de ser iguales", Toast.LENGTH_SHORT).show();
             return false;
-
         }
 
         return true;
     }
 
-
+    // Manejar la selección de elementos del menú
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -273,5 +276,4 @@ public class Register extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 }
